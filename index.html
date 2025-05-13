@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>WebGIS - FAD</title>
+
+  <!-- Fontes e Estilos -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/mapa.css" />
+  <link rel="stylesheet" href="css/menu_camadas.css" />
+  <link rel="stylesheet" href="css/rodape.css" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Projeções e Leaflet -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/proj4leaflet@1.0.2/src/proj4leaflet.js"></script>
+</head>
+
+<body>
+
+  <!-- Cabeçalho fixo superior -->
+  <header class="header-fad">
+    <div class="logo-container">
+      <img src="logo_fad_completo_fundo_transparente.png" alt="Logo FAD" class="logo-central-fad" />
+      <div class="titulo-fad">
+        <h1>WebGIS</h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- Conteúdo principal -->
+  <main>
+    <aside id="sidebar">
+      <div id="sidebar-header">
+        <h2>CAMADAS DISPONÍVEIS</h2>
+        <div id="filtro-container">
+          <input type="text" id="filtro-camada" placeholder="Buscar camada...">
+          <button id="filtro-botao">🔍</button>
+          <ul id="filtro-sugestoes"></ul>
+        </div>
+      </div>
+      <div id="sidebar-body">
+        <div id="sidebar-content"></div>
+      </div>
+    </aside>
+
+    <section id="map"></section>
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="rodape-fad">
+    <div id="dataHora">Atualizado em: —</div>
+
+    <div class="rodape-crs" id="crs-container"></div>
+
+    <select id="tipo-coord" class="rodape-select">
+      <option value="decimal">Decimal (°)</option>
+      <option value="dms">Grau, Minuto, Segundo (DMS)</option>
+    </select>
+
+    <select id="datum" class="rodape-select">
+      <option value="4674">SIRGAS 2000 (Geográfico)</option>
+      <option value="31982">SIRGAS 2000 / UTM zona 22S</option>
+      <option value="31983">SIRGAS 2000 / UTM zona 23S</option>
+      <option value="5880">SIRGAS 2000 / Policônico</option>
+      <option value="4326">WGS 84 (Geográfico)</option>
+      <option value="32722">WGS 84 / UTM zona 22S</option>
+      <option value="32723">WGS 84 / UTM zona 23S</option>
+    </select>
+
+    <div class="rodape-escala" id="escala-container">Escala: 1:—</div>
+    <div>Desenvolvido por: VPC-GEOSER</div>
+  </footer>
+
+  <!-- ✅ Script Módulo Unificado -->
+  <script type="module">
+    import { QGIS_SERVER_URL, layerConfig } from './js/layers.js';
+    import './js/menu_camadas.js';
+
+    window._activeLayers = {};
+    window.qgisBaseUrl = QGIS_SERVER_URL;
+
+    console.log('URL do QGIS Server:', QGIS_SERVER_URL);
+  </script>
+
+  <!-- Inicialização do mapa e outros scripts comuns -->
+  <script src="js/mapa.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/rodape.js"></script>
+</body>
+</html>

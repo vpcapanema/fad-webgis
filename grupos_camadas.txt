@@ -1,0 +1,47 @@
+Base Administrativa
+	Brasil – Unidades da Federação
+	Limite Estadual
+	Limite Coordenadoras Regionais
+	Limite de Sub-bacias Hidrográficas
+	Sedes Municipais
+	Limite residências de conserva
+	Sede residências de conserva
+	DISTRITO_MUNICIPAL_SP_SMDU
+
+Restrição e Proteção Ambiental
+	Proteção
+		uc_estadual_pi         
+		uc_estadual_us       
+		uc_federal_pi       
+		uc_federal_us     
+		SitiosArqueologicos
+	Restrição
+		terras indígenas
+		quilombolas  
+		AREAS_RESTRICAO_CETESB_POL
+		AREAS_RESTRICAO_DAEE_POL
+		AREA_RESTRICAO_AGUA_SUBTERRANEA_JURUBATUBA
+		
+Base  Temática
+	Inventário Florestal
+		Lista todos os UGRHI01…UGRHI22
+	Sensibilidade Ambiental
+		VWM_AREA_RISCO_EROSAO_IG_2014_POL
+		VWM_AREA_RISCO_ESCORREGAMENTO_IG_2014_POL
+		VWM_AREA_RISCO_INUNDACAO_IG_2014_POL
+		VWM_AREA_RISCO_SOLAPAMENTO_IG_2014_POL
+		RISCO_FOGO_ATUALIZADO_INPE
+		
+
+Infraestrutura
+	Malha DER 2025 (trazer somente essa)
+	AERODROMO_ANAC_2021
+	AEROPORTOS_PUBLICOS_ANAC_2021
+
+Projetos
+	Estadualização
+		favorabilidade_trechos
+		indicador socioeconômico
+		ifm_raw
+		sensibilidade
+

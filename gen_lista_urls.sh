@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+GEOSERVER="http://3.131.82.224:8080/geoserver"
+WORKSPACE="fad"
+
+layers=(
+  ifm_raw
+  sensibilidade_indicador_favorabilidade_multicriterio
+  Limite_das_residencias_de_conserva
+  favorabilidade_multicriterio_trechos_vicinais
+  indicador_favorabilidade_socioeconomico
+  limite_coordenadorias_gerais_regionais_der
+  AreaUrbana
+  limite_estadual
+  malha_der_2025
+  quilombolas
+  residencias_conserva_sedes
+  terras_indigenas
+  uc_estadual_pi
+  uc_estadual_us
+  uc_federal_pi
+  uc_federal_us
+  AERODROMO_ANAC_2021
+  AEROPORTOS_PUBLICOS_ANAC_2021
+  BRASIL_UF_FUNDO_POL
+  INVENTARIO_FLORESTAL_UGRHI01_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI02_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI03_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI04_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI05_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI06_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI07_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI08_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI09_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI10_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI11_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI12_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI13_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI14_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI15_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI16_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI17_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI18_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI19_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI20_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI21_IPA_2020_POL
+  INVENTARIO_FLORESTAL_UGRHI22_IPA_2020_POL
+)
+
+for L in "${layers[@]}"; do
+  echo "=== $L ==="
+  echo "WMS: ${GEOSERVER}/wms?service=WMS&version=1.1.1&request=GetMap&layers=${WORKSPACE}:${L}&styles=&format=image/png&transparent=true"
+  echo "WFS: ${GEOSERVER}/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=${WORKSPACE}:${L}&outputFormat=application/json"
+  echo
+done

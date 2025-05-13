@@ -1,0 +1,47 @@
+footer.rodape-fad {
+  background-color: #003366;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 5px;
+  height: 25px;
+  font-size: 0.65rem;
+}
+
+footer.rodape-fad > * {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Inputs e selects discretos */
+.crs-input,
+.rodape-select {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  color: white;
+  font-size: 0.65rem;
+  height: 16px;
+  padding: 0px 3px;
+  width: auto;
+  text-align: center;
+}
+
+/* CRS (coordenadas) */
+.rodape-crs {
+  display: flex;
+  height: 13px;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Escala separada */
+.rodape-escala {
+  font-size: 0.65rem;
+  height: 13px;
+  display: flex;
+  align-items: center;
+}
+ 

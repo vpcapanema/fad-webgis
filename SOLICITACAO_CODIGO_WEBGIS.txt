@@ -1,0 +1,14 @@
+Elabore o passo a passo (não é a sequencia de código, é apenas um to do) para que possamos colocar meu webgis no ar servindo inclusice https. considerações importantes:
+SOMENTE SOLUÇÕES GRATUITAS;
+O REPOSITORIO DO WEBGIS ESTA HOSPEDADO NO S3 AWS
+CONSIDERAR MEU DOMINIO www.fad-webgis.lat PARA RENDERIZAR A PÁGINA INICIAL DO WEBGIS (INDEX.HTML)
+INSTALAR APENAS O QGIS SERVER, AS CAMADAS SERÃO GERADAS NO MEU NOTEBOOK, PELO QGIS 3.34
+
+"C:\Users\vinic\.ssh\nova-chave-fad.pem"
+www.fad-webgis.lat.s3-website-us-east-2.amazonaws.com ENDPOINT DO BUCKET 
+
+MINHA CONFIGURAÇÃO DO DOMINIO
+Type; Host; Value; TTL
+A Record; qgis; 3.143.88.29; 60 min
+CNAME Record; www; www.fad-webgis.lat.s3-website-us-east-2.amazonaws.com.; 60 min
+URL Redirect Record; @; https://www.fad-webgis.lat; Permanent (301)

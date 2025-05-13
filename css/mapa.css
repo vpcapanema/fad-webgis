@@ -1,0 +1,27 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Nunito', sans-serif;
+}
+
+main {
+  display: flex;
+  height: calc(100% - 40px);
+}
+
+#map {
+  flex: 1;
+  height: 100%;
+}
+
+footer.rodape-fad {
+  height: 40px;
+  background: #003366;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+}

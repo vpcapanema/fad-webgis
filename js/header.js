@@ -1,0 +1,1 @@
+// Nenhuma ação dinâmica no header ainda.
