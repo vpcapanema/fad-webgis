@@ -1,6 +1,6 @@
 // js/layers.js
 // Exporta a configuração de grupos, subgrupos e camadas (sem alterar nomes originais).
-export const QGIS_SERVER_URL = 'https://www.fad-webgis.lat/qgis?MAP=/opt/qgis-server/projetos/CAMADAS_FAD_copia.qgs';
+export const GEOSERVER_URL = 'https://www.fad-webgis.lat/geoserver/fad/ows';
 
 export const layerConfig = {
     "Bases Administrativas": {

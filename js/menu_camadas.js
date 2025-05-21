@@ -1,5 +1,6 @@
 // js/menu_camadas.js
-import { layerConfig, QGIS_SERVER_URL } from './layers.js';
+import { layerConfig, GEOSERVER_URL } from './layers.js';
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const map = window.map;

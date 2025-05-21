@@ -1,0 +1,19 @@
+{
+  "CloudFront_Distribution": {
+    "PriceClass": "PriceClass_100",
+    "Region": "us-east-1",
+    "ExpectedUsage": {
+      "DataTransferOut": "50 GB/month",
+      "Requests": "1 million/month"
+    },
+    "EstimatedMonthlyCostUSD": {
+      "DataTransferOut": "0.00 (Free Tier)",
+      "Requests": "0.00 (Free Tier)",
+      "Total": "0.00"
+    },
+    "Notes": [
+      "Using AWS Free Tier (1 TB/month & 10M requests/month allowed)",
+      "No charges expected under current usage and PriceClass_100"
+    ]
+  }
+}
