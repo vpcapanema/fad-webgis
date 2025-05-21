@@ -77,13 +77,13 @@
 
   <!-- ✅ Script Módulo Unificado -->
   <script type="module">
-    import { QGIS_SERVER_URL, layerConfig } from './js/layers.js';
+    import { GEOSERVER_URL, layerConfig } from './js/layers.js';
     import './js/menu_camadas.js';
 
     window._activeLayers = {};
-    window.qgisBaseUrl = QGIS_SERVER_URL;
+    window.qgisBaseUrl = GEOSERVER_URL;
 
-    console.log('URL do QGIS Server:', QGIS_SERVER_URL);
+    console.log('URL do QGIS Server:', GEOSERVER_URL);
   </script>
 
   <!-- Inicialização do mapa e outros scripts comuns -->
