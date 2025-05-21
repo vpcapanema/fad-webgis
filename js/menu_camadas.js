@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         checkbox.addEventListener('change', () => {
           if (checkbox.checked) {
             if (cfg.type === 'wfs') {
-              const wfsUrl = `${QGIS_SERVER_URL}&SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=${cfg.layer}&OUTPUTFORMAT=application/json`;
+              const wfsUrl = `${GEOSERVER_URL}&SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=${cfg.layer}&OUTPUTFORMAT=application/json`;
               fetch(wfsUrl)
                 .then(r => r.json())
                 .then(data => {
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   }).addTo(map);
                 });
             } else {
-              window._activeLayers[title] = L.tileLayer.wms(QGIS_SERVER_URL, {
+              window._activeLayers[title] = L.tileLayer.wms(GEOSERVER_URL, {
                 layers: cfg.layer,
                 transparent: true,
                 format: 'image/png',
