@@ -1,6 +1,6 @@
 // js/layers.js
 // Exporta a configuração de grupos, subgrupos e camadas (sem alterar nomes originais).
-export const GEOSERVER_URL = 'http://fad-webgis.lat/geoserver/fad/ows?';
+export const GEOSERVER_URL = 'https://fad-webgis.lat/geoserver/fad/ows?v=20250620&';
 
 export const layerConfig = {
     "Bases Administrativas": {
