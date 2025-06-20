@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   window._activeLayers[title] = L.geoJSON(data, {
                     style: wfsStyle
                   }).addTo(map);
+                  window._activeLayers[title].bringToFront();
                 });
             } else {
               window._activeLayers[title] = L.tileLayer.wms(GEOSERVER_URL, {
@@ -47,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 format: 'image/png',
                 version: '1.3.0'
               }).addTo(map);
+              window._activeLayers[title].bringToFront();
             }
           } else {
             if (window._activeLayers[title]) {
