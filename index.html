@@ -86,26 +86,26 @@
 
     <section id="map"></section>
     <div class="map-toolbar">
-      <button class="tool-btn" id="btn-zoom-in" title="Zoom In">
-        <span class="material-icons" style="color:#fff;">zoom_in</span>
+      <button class="tool-btn" id="btn-zoom-in">
+        <span class="material-icons">zoom_in</span>
       </button>
-      <button class="tool-btn" id="btn-zoom-out" title="Zoom Out">
-        <span class="material-icons" style="color:#fff;">zoom_out</span>
+      <button class="tool-btn" id="btn-zoom-out">
+        <span class="material-icons">zoom_out</span>
       </button>
-      <button class="tool-btn" id="btn-measure" title="Medição">
-        <span class="material-icons" style="color:#fff;">straighten</span>
+      <button class="tool-btn" id="btn-measure">
+        <span class="material-icons">straighten</span>
       </button>
-      <button class="tool-btn" id="btn-draw" title="Desenhar">
-        <span class="material-icons" style="color:#fff;">edit</span>
+      <button class="tool-btn" id="btn-draw">
+        <span class="material-icons">edit</span>
       </button>
-      <button class="tool-btn" id="btn-legend" title="Legenda">
-        <span class="material-icons" style="color:#fff;">legend_toggle</span>
+      <button class="tool-btn" id="btn-legend">
+        <span class="material-icons">legend_toggle</span>
       </button>
-      <button class="tool-btn" id="btn-download" title="Download">
-        <span class="material-icons" style="color:#fff;">download</span>
+      <button class="tool-btn" id="btn-download">
+        <span class="material-icons">download</span>
       </button>
-      <button class="tool-btn" id="btn-share" title="Compartilhar">
-        <span class="material-icons" style="color:#fff;">share</span>
+      <button class="tool-btn" id="btn-share">
+        <span class="material-icons">share</span>
       </button>
     </div>
     <div id="legend-modal"></div>
@@ -141,8 +141,12 @@
   </footer>
 
   <!-- ✅ Scripts em ordem correta -->
-  <script type="module" src="js/menu_camadas.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-measure/dist/leaflet-measure.js"></script>
+  <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+
   <script type="module" src="js/mapa.js"></script>
+  <script type="module" src="js/menu_camadas.js"></script>
   <script src="js/header.js"></script>
   <script src="js/rodape.js"></script>
 </body>

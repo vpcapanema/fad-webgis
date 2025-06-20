@@ -8,12 +8,13 @@ html, body {
 
 main {
   display: flex;
-  height: calc(100% - 40px);
+  height: calc(100vh - 120px); /* Altura total da tela menos cabeçalho e rodapé */
 }
 
 #map {
   flex: 1;
   height: 100%;
+  background-color: #f0f0f0; /* Cor de fundo para ver se o elemento está no lugar */
 }
 
 footer.rodape-fad {
@@ -26,51 +27,7 @@ footer.rodape-fad {
   font-size: 0.9rem;
 }
 
-.map-tools-vertical {
-  position: absolute;
-  top: 100px;
-  right: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  z-index: 1000;
-  background: rgba(255,255,255,0.98);
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
-  padding: 18px 12px;
-  min-width: 140px;
-  align-items: stretch;
-}
-
-.map-tools-vertical button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 1.1em;
-  padding: 10px 12px;
-  border: none;
-  border-radius: 8px;
-  background: #1976d2;
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-}
-
-.map-tools-vertical button:hover {
-  background: #125ea7;
-}
-
-.map-tools-vertical button:active {
-  background: #0d437a;
-}
-
-/* Ícones para os botões (usando emoji por simplicidade) */
-#btn-download::before { content: '⬇️ '; }
-#btn-share::before { content: '🔗 '; }
-#btn-legend::before { content: '📑 '; }
-#btn-filter::before { content: '🔎 '; }
+/* REMOVIDO: .map-tools-vertical e seus botões, pois a barra lateral antiga foi desativada. */
 
 #legend-modal, #share-modal, #filter-modal {
   display: none;
@@ -111,54 +68,32 @@ footer.rodape-fad {
 }
 
 .map-toolbar .tool-btn {
-  width: 40px;
-  height: 40px;
+  width: 44px; /* Aumentado para melhor toque */
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   border-radius: 50%;
-  background: #1976d2;
-  color: #fff;
-  font-size: 1.35em;
+  background: #fff; /* Fundo branco */
+  color: #333; /* Cor do ícone */
+  font-size: 1.45em; /* Ícone maior */
   cursor: pointer;
   transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-  box-shadow: 0 4px 12px 0 rgba(0,0,0,0.22), 0 1.5px 4px 0 rgba(0,0,0,0.10);
+  box-shadow: 0 4px 12px 0 rgba(0,0,0,0.18), 0 1.5px 4px 0 rgba(0,0,0,0.08);
   position: relative;
 }
 
 .map-toolbar .tool-btn:hover, .map-toolbar .tool-btn:focus {
-  background: #005bb5;
+  background: #f5f5f5; /* Leve destaque no hover */
   transform: scale(1.09);
-  box-shadow: 0 8px 24px 0 rgba(0,0,0,0.28), 0 2px 8px 0 rgba(0,0,0,0.13);
+  box-shadow: 0 8px 24px 0 rgba(0,0,0,0.22), 0 2px 8px 0 rgba(0,0,0,0.11);
 }
 
-.map-toolbar .tool-btn .tooltip {
-  visibility: hidden;
-  width: max-content;
-  background: #222;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 4px 10px;
-  position: absolute;
-  right: 50px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1300;
-  font-size: 0.95em;
-  opacity: 0;
-  transition: opacity 0.2s;
-  pointer-events: none;
-}
-
-.map-toolbar .tool-btn:hover .tooltip, .map-toolbar .tool-btn:focus .tooltip {
-  visibility: visible;
-  opacity: 1;
-}
+/* REMOVIDO: Estilos de tooltip, pois foram desativados no HTML. */
 
 .map-toolbar .material-icons {
-  color: #fff !important;
+  color: #333 !important; /* Garante a cor do ícone */
 }
 
 @media (max-width: 700px) {
@@ -168,8 +103,8 @@ footer.rodape-fad {
     padding: 0;
   }
   .map-toolbar .tool-btn {
-    width: 30px;
-    height: 30px;
-    font-size: 1em;
+    width: 38px; /* Ajuste para telas menores */
+    height: 38px;
+    font-size: 1.2em;
   }
 }
