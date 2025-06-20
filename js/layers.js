@@ -56,7 +56,7 @@ export const layerConfig = {
     },
   
     "Infraestrutura": {
-      "Malha Rodoviária Estadual (DER/SP 2025)":   { type: "wms", layer: "malha_der_2025" },
+      "Malha Rodoviária Estadual (DER/SP 2025)":   { type: "wms", layer: "malha_rodoviaria_2025" },
       "Dispositivos Rodoviários pol (DER/SP)"  :   { type: "wms", layer: "dispositivos_alca" },
       "Dispositivos Rodoviários ponto (DER/SP)":   { type: "wms", layer: "dispositivos_ponto" },
       "Balanças (DER/SP)"                      :   { type: "wms", layer: "balancas" }
