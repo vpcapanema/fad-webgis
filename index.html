@@ -58,6 +58,15 @@
     </aside>
 
     <section id="map"></section>
+    <div id="map-tools" class="map-tools-vertical">
+      <button id="btn-download">Download Dados</button>
+      <button id="btn-share">Compartilhar Mapa</button>
+      <button id="btn-legend">Legenda</button>
+      <button id="btn-filter">Filtros</button>
+    </div>
+    <div id="legend-modal" style="display:none;"></div>
+    <div id="share-modal" style="display:none;"></div>
+    <div id="filter-modal" style="display:none;"></div>
   </main>
 
   <!-- Rodapé -->
@@ -102,16 +111,5 @@
   <script type="module" src="js/mapa.js"></script>
   <script src="js/header.js"></script>
   <script src="js/rodape.js"></script>
-
-  <!-- Ferramentas do Mapa -->
-  <div id="map-tools">
-    <button id="btn-download">Download Dados</button>
-    <button id="btn-share">Compartilhar Mapa</button>
-    <button id="btn-legend">Legenda</button>
-    <button id="btn-filter">Filtros</button>
-  </div>
-  <div id="legend-modal" style="display:none;"></div>
-  <div id="share-modal" style="display:none;"></div>
-  <div id="filter-modal" style="display:none;"></div>
 </body>
 </html>
