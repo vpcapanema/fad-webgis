@@ -1,151 +1,192 @@
 // js/mapa.js
 
-// Inicializa o mapa com CRS EPSG:3857 (padrão Web Mercator)
-window.map = L.map('map', {
-  center: [-23.55, -46.63], // São Paulo
-  zoom: 7,
-  minZoom: 4,
-  maxZoom: 19,
-  zoomControl: true,
-  attributionControl: true
-});
-
-// === Basemaps ===
-const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(window.map);
-
-const esriStreets = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-  attribution: '&copy; Esri &mdash; Source: Esri, NAVTEQ, DeLorme, and others'
-});
-
-const esriSatellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-  attribution: '&copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community'
-});
-
-// === Adiciona controle de camadas base ===
-const baseMaps = {
-  "OpenStreetMap": osm,
-  "ESRI - Rua": esriStreets,
-  "ESRI - Satélite": esriSatellite
-};
-
-L.control.layers(baseMaps, null, { position: 'topleft', collapsed: false }).addTo(window.map);
-
-// === Medida de escala ===
-L.control.scale({ imperial: false }).addTo(window.map);
-
-// Função utilitária para construir a URL GetFeatureInfo para camadas WMS Leaflet
-function getFeatureInfoUrl(latlng, layer, map) {
-  const point = map.latLngToContainerPoint(latlng, map.getZoom());
-  const size = map.getSize();
-  const params = {
-    request: 'GetFeatureInfo',
-    service: 'WMS',
-    srs: 'EPSG:4326',
-    styles: '',
-    transparent: true,
-    version: '1.3.0',
-    format: 'image/png',
-    bbox: map.getBounds().toBBoxString(),
-    height: size.y,
-    width: size.x,
-    layers: layer.wmsParams.layers,
-    query_layers: layer.wmsParams.layers,
-    info_format: 'application/json',
-    i: Math.round(point.x),
-    j: Math.round(point.y)
-  };
-  const url = layer._url +
-    Object.keys(params)
-      .map(k => `${k}=${encodeURIComponent(params[k])}`)
-      .join('&');
-  return url;
-}
-
-// === Consulta dinâmica (popup ao clicar no mapa) ===
-window.map.on('click', function(e) {
-  // Procura a camada WMS ativa mais acima
-  const activeLayerName = Object.keys(window._activeLayers).slice(-1)[0];
-  const activeLayer = window._activeLayers[activeLayerName];
-  if (!activeLayer || !activeLayer.wmsParams) return;
-  const url = getFeatureInfoUrl(e.latlng, activeLayer, window.map);
-  fetch(url)
-    .then(r => r.json())
-    .then(data => {
-      if (data.features && data.features.length > 0) {
-        const props = data.features[0].properties;
-        let html = '<b>Informações:</b><br><ul>';
-        for (const k in props) {
-          html += `<li><b>${k}</b>: ${props[k]}</li>`;
-        }
-        html += '</ul>';
-        L.popup().setLatLng(e.latlng).setContent(html).openOn(window.map);
-      }
-    });
-});
-
-// === Medição de distância e área ===
-// Removido import de CSS via JS. O CSS já está no <head> do HTML.
-// Para usar plugins como leaflet-measure e leaflet-draw, adicione os scripts e CSS no HTML:
-// <link rel="stylesheet" href="https://unpkg.com/leaflet-measure/dist/leaflet-measure.css" />
-// <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
-// <script src="https://unpkg.com/leaflet-measure/dist/leaflet-measure.min.js"></script>
-// <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
-
-if (window.L && window.L.control && window.L.control.measure) {
-  L.control.measure({
-    primaryLengthUnit: 'meters',
-    secondaryLengthUnit: 'kilometers',
-    primaryAreaUnit: 'sqmeters',
-    secondaryAreaUnit: 'hectares',
-    position: 'topleft'
-  }).addTo(window.map);
-}
-
-// === Consulta espacial (seleção por polígono) ===
-if (window.L && window.L.Control && window.L.Control.Draw) {
-  const drawnItems = new L.FeatureGroup();
-  window.map.addLayer(drawnItems);
-  const drawControl = new L.Control.Draw({
-    edit: { featureGroup: drawnItems },
-    draw: { polygon: true, polyline: false, rectangle: true, circle: false, marker: false, circlemarker: false }
-  });
-  window.map.addControl(drawControl);
-  window.map.on(L.Draw.Event.CREATED, function (e) {
-    drawnItems.addLayer(e.layer);
-    // Aqui você pode implementar consulta espacial WFS/WMS usando a geometria desenhada
-  });
-}
-
-// Adiciona eventos aos botões de ferramentas do mapa
-import { showLegend, downloadLayerData, shareMapLink } from './menu_camadas.js';
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Eventos dos botões do menu lateral
-  const btnLegend = document.getElementById('btn-legend');
-  if (btnLegend) {
-    btnLegend.onclick = () => {
-      showLegend('<b>Legenda</b><br>Ative uma camada para ver a legenda.');
+    // 1. INICIALIZAÇÃO DO MAPA
+    // =================================================================
+    const map = L.map('map', {
+        center: [-23.55, -46.63],
+        zoom: 7,
+        minZoom: 4,
+        maxZoom: 19,
+        zoomControl: false, // Desativado para usar a barra de ferramentas personalizada
+        attributionControl: true
+    });
+    window.map = map; // Expondo globalmente para outros scripts
+
+    // 2. DEFINIÇÃO DOS MAPAS BASE
+    // =================================================================
+    const baseMaps = {
+        'Google Streets': L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            attribution: '&copy; Google'
+        }),
+        'Google Híbrido': L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            attribution: '&copy; Google'
+        }),
+        'Google Satélite': L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            attribution: '&copy; Google'
+        }),
+        'OpenStreetMap': L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }),
+        'ESRI Satélite': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '&copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics'
+        }),
+        'CartoDB Posição': L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+            subdomains: 'abcd',
+            maxZoom: 20
+        })
     };
-  }
-  const btnDownload = document.getElementById('btn-download');
-  if (btnDownload) {
-    btnDownload.onclick = () => {
-      const layerName = Object.keys(window._activeLayers).slice(-1)[0];
-      if (layerName) downloadLayerData(layerName);
+
+    let currentBaseMap = baseMaps['Google Streets'];
+    currentBaseMap.addTo(map);
+
+    // 3. CONTROLES E FERRAMENTAS DO MAPA
+    // =================================================================
+    L.control.scale({ imperial: false }).addTo(map);
+
+    const measureControl = L.control.measure({
+        primaryLengthUnit: 'meters',
+        secondaryLengthUnit: 'kilometers',
+        primaryAreaUnit: 'hectares',
+        secondaryAreaUnit: 'sqmeters',
+        activeColor: '#007bff',
+        completedColor: '#0056b3',
+        localization: 'pt_BR'
+    });
+    measureControl.addTo(map);
+
+    const drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+    const drawControl = new L.Control.Draw({
+        edit: { featureGroup: drawnItems },
+        draw: { polygon: true, polyline: true, rectangle: true, circle: true, marker: true }
+    });
+    map.addControl(drawControl);
+
+    // Esconde os controles padrão dos plugins
+    document.querySelector('.leaflet-draw').style.display = 'none';
+    document.querySelector('.leaflet-control-measure').style.display = 'none';
+
+    // 4. LÓGICA DA BARRA DE FERRAMENTAS E MODAIS
+    // =================================================================
+    const basemapModal = document.getElementById('basemap-modal');
+    const legendModal = document.getElementById('legend-modal');
+    const shareModal = document.getElementById('share-modal');
+
+    const toggleModal = (modal, forceState) => {
+        if (!modal) return;
+        const isActive = modal.classList.contains('active');
+        if (forceState === 'open' && !isActive) modal.classList.add('active');
+        else if (forceState === 'close' && isActive) modal.classList.remove('active');
+        else if (!forceState) modal.classList.toggle('active');
     };
-  }
-  const btnShare = document.getElementById('btn-share');
-  if (btnShare) {
-    btnShare.onclick = () => {
-      shareMapLink();
+
+    const populateBasemapModal = () => {
+        const basemapList = document.getElementById('basemap-list');
+        if (!basemapList) return;
+        basemapList.innerHTML = '';
+        Object.keys(baseMaps).forEach(name => {
+            const item = document.createElement('div');
+            item.className = 'basemap-item';
+            if (map.hasLayer(baseMaps[name])) {
+                item.classList.add('active');
+            }
+            // Adicionar thumbnail (placeholder por enquanto)
+            item.innerHTML = `<img src="https://via.placeholder.com/100x80.png?text=${name.replace(' ','+')}" alt="${name}"><span>${name}</span>`;
+            item.onclick = () => {
+                map.removeLayer(currentBaseMap);
+                currentBaseMap = baseMaps[name];
+                map.addLayer(currentBaseMap);
+                document.querySelectorAll('.basemap-item').forEach(el => el.classList.remove('active'));
+                item.classList.add('active');
+                setTimeout(() => toggleModal(basemapModal, 'close'), 200);
+            };
+            basemapList.appendChild(item);
+        });
     };
-  }
-  // Exemplo: Zoom in/out
-  const btnZoomIn = document.getElementById('btn-zoom-in');
-  if (btnZoomIn) btnZoomIn.onclick = () => window.map.zoomIn();
-  const btnZoomOut = document.getElementById('btn-zoom-out');
-  if (btnZoomOut) btnZoomOut.onclick = () => window.map.zoomOut();
+
+    document.getElementById('btn-basemap').addEventListener('click', () => {
+        populateBasemapModal();
+        toggleModal(basemapModal, 'open');
+    });
+    document.getElementById('btn-zoom-in').addEventListener('click', () => map.zoomIn());
+    document.getElementById('btn-zoom-out').addEventListener('click', () => map.zoomOut());
+
+    // Simula o clique no botão invisível do plugin de medição
+    document.getElementById('btn-measure').addEventListener('click', () => {
+        document.querySelector('.leaflet-control-measure-toggle').click();
+    });
+
+    // Ativa a primeira ferramenta de desenho (polígono) como exemplo
+    document.getElementById('btn-draw').addEventListener('click', () => {
+        new L.Draw.Polygon(map, drawControl.options.draw.polygon).enable();
+    });
+
+    document.getElementById('btn-legend').addEventListener('click', () => toggleModal(legendModal, 'open'));
+    document.getElementById('btn-share').addEventListener('click', () => toggleModal(shareModal, 'open'));
+
+    document.querySelectorAll('.modal-close-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            toggleModal(btn.closest('.modal-container'), 'close');
+        });
+    });
+
+    // 5. CONSULTA DE INFORMAÇÕES (GetFeatureInfo)
+    // =================================================================
+    function getFeatureInfoUrl(latlng, layer, map) {
+        const point = map.latLngToContainerPoint(latlng, map.getZoom());
+        const size = map.getSize();
+        const params = {
+            request: 'GetFeatureInfo',
+            service: 'WMS',
+            srs: 'EPSG:4326',
+            styles: '',
+            transparent: true,
+            version: '1.3.0',
+            format: 'image/png',
+            bbox: map.getBounds().toBBoxString(),
+            height: size.y,
+            width: size.x,
+            layers: layer.wmsParams.layers,
+            query_layers: layer.wmsParams.layers,
+            info_format: 'application/json',
+            i: Math.round(point.x),
+            j: Math.round(point.y)
+        };
+        return layer._url + L.Util.getParamString(params, layer._url);
+    }
+
+    map.on('click', function (e) {
+        if (window._activeLayers) {
+            const activeLayerKeys = Object.keys(window._activeLayers);
+            if (activeLayerKeys.length === 0) return;
+            const activeLayerName = activeLayerKeys[activeLayerKeys.length - 1];
+            const activeLayer = window._activeLayers[activeLayerName];
+
+            if (!activeLayer || !activeLayer.wmsParams) return;
+
+            const url = getFeatureInfoUrl(e.latlng, activeLayer, map);
+            fetch(url)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.features && data.features.length > 0) {
+                        const props = data.features[0].properties;
+                        let html = '<div class="info-popup"><b>Informações da Camada:</b><br><ul>';
+                        for (const k in props) {
+                            html += `<li><b>${k}</b>: ${props[k]}</li>`;
+                        }
+                        html += '</ul></div>';
+                        L.popup().setLatLng(e.latlng).setContent(html).openOn(map);
+                    }
+                }).catch(err => console.error("Erro no GetFeatureInfo:", err));
+        }
+    });
 });
