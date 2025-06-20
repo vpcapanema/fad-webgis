@@ -107,3 +107,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
   buildMenu(layerConfig, sidebarContent);
 });
+
+// === Legenda interativa ===
+export function showLegend(legendHtml) {
+  const legendModal = document.getElementById('legend-modal');
+  legendModal.innerHTML = legendHtml;
+  legendModal.style.display = 'block';
+}
+
+// === Download de dados ===
+export function downloadLayerData(layerName) {
+  const layer = layerConfig[layerName];
+  if (!layer) return;
+  const url = `${GEOSERVER_URL}&SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=${layer.layer}&OUTPUTFORMAT=application/json`;
+  fetch(url)
+    .then(r => r.blob())
+    .then(blob => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `${layerName}.geojson`;
+      a.click();
+    });
+}
+
+// === Compartilhamento de link do mapa ===
+export function shareMapLink() {
+  const center = window.map.getCenter();
+  const zoom = window.map.getZoom();
+  const url = `${window.location.origin}${window.location.pathname}?lat=${center.lat}&lng=${center.lng}&zoom=${zoom}`;
+  const shareModal = document.getElementById('share-modal');
+  shareModal.innerHTML = `<input type='text' value='${url}' readonly style='width:90%'>`;
+  shareModal.style.display = 'block';
+}
