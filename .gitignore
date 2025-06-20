@@ -1,0 +1,21 @@
+# Ignora arquivos e pastas que não devem ir para o GitHub
+node_modules/
+.DS_Store
+*.log
+.env
+__pycache__/
+*.pyc
+.vscode/
+.s3ignore
+*.bak
+*.tmp
+ARQUIVADOS_WEBGIS/
+_LIXO_FAD_20250612/
+# Ignora arquivos temporários do Windows
+Thumbs.db
+Desktop.ini
+# Ignora arquivos de backup do editor
+*~
+# Ignora arquivos de credenciais
+aws_credentials.csv
+aws_credentials_template.csv

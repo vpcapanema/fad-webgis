@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>WebGIS - FAD</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Fontes e Estilos -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
@@ -56,12 +57,14 @@
 
     <div class="rodape-crs" id="crs-container"></div>
 
-    <select id="tipo-coord" class="rodape-select">
+    <label for="tipo-coord" class="sr-only">Tipo de Coordenada</label>
+    <select id="tipo-coord" class="rodape-select" aria-label="Tipo de Coordenada">
       <option value="decimal">Decimal (°)</option>
       <option value="dms">Grau, Minuto, Segundo (DMS)</option>
     </select>
 
-    <select id="datum" class="rodape-select">
+    <label for="datum" class="sr-only">Datum</label>
+    <select id="datum" class="rodape-select" aria-label="Datum">
       <option value="4674">SIRGAS 2000 (Geográfico)</option>
       <option value="31982">SIRGAS 2000 / UTM zona 22S</option>
       <option value="31983">SIRGAS 2000 / UTM zona 23S</option>

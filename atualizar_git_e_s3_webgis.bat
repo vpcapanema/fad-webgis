@@ -14,7 +14,7 @@ git push
 
 echo.
 echo 🟢 Publicando alterações no bucket S3...
-aws s3 sync . s3://www.fad-webgis.lat --delete
+aws s3 sync . s3://fad-webgis-simple-6896 --delete
 
 echo.
 echo ✅ Tudo pronto! WebGIS atualizado no GitHub e publicado em:

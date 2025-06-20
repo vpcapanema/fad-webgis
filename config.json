@@ -1,3 +1,16 @@
 {
-  "geoServerBase": "http://fad-webgis.lat/geoserver"
+  "postgresqlPort": "5432",
+  "postgresqlHost": "fad-postgresql-public.c6j00cu4izbw.us-east-1.rds.amazonaws.com",
+  "ec2PublicIP": "44.222.106.72",
+  "status": "http://44.222.106.72/status",
+  "instanceId": "i-0b0d78413d046dd2d",
+  "apiInfo": "http://44.222.106.72/api/info",
+  "postgresqlDatabase": "fad_db",
+  "geoServerUrl": "http://44.222.106.72/geoserver",
+  "created": "2025-06-18 14:20:32",
+  "geoServerBase": "http://44.222.106.72/geoserver",
+  "geoServerWebAdmin": "http://44.222.106.72/geoserver/web",
+  "healthCheck": "http://44.222.106.72/health",
+  "domain": "fad-webgis.lat",
+  "instanceType": "t4g.medium"
 }
