@@ -30,7 +30,7 @@ export const layerConfig = {
         "Terras Indígenas (TI)":            { type: "wms", layer: "terras_indigenas" },
         "Zona Amortecimento TIs":           {type: "wms", layer: "terras_indigenas_anel10km"}, 
         "Áreas Quilombolas (AQ)":           { type: "wms", layer: "quilombolas" },
-        "Zona Amortecimento AQs":           {type: "wms", layer: "terras_indigenas_anel10km"},        
+        "Zona Amortecimento AQs":           {type: "wms", layer: "quilombolas_anel10km"},        
         "Restrição CETESB":                 { type: "wms", layer: "AREAS_RESTRICAO_CETESB_POL" },
         "Restrição DAEE":                   { type: "wms", layer: "AREAS_RESTRICAO_DAEE_POL" },
         "Água Subterrânea Jurubatuba":      { type: "wms", layer: "AREA_RESTRICAO_AGUA_SUBTERRANEA_JURUBATUBA" }

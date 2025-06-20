@@ -180,6 +180,68 @@ footer.rodape-fad {
   overflow-y: auto;
 }
 
+/* Estilos para o painel de mapas base (substitui o modal) */
+#basemap-panel {
+  position: absolute;
+  top: 90px; /* Alinha com o topo da barra de ferramentas */
+  right: 80px; /* Espaço à direita da barra de ferramentas */
+  width: 280px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  z-index: 1900; /* Abaixo do modal, mas acima do mapa */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* Animação de entrada e saída */
+  transform: translateX(120%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#basemap-panel.active {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  color: white;
+  /* Aplicando o gradiente solicitado */
+  background: linear-gradient(90deg, #007a29 0%, #004080 100%);
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.panel-close-btn {
+  border: none;
+  background: none;
+  font-size: 1.8em;
+  cursor: pointer;
+  color: #fff;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.panel-close-btn:hover {
+    opacity: 1;
+}
+
+.panel-body {
+  padding: 15px;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
 /* Estilos para a lista de mapas base - VERSÃO COMPACTA */
 #basemap-list {
   display: flex;
@@ -221,12 +283,6 @@ footer.rodape-fad {
 
 .basemap-item span {
   font-size: 14px;
-}
-
-/* Ajuste no tamanho do modal de mapas base */
-#basemap-modal.modal-container {
-    min-width: 280px;
-    max-width: 320px;
 }
 
 .map-toolbar .material-icons {
