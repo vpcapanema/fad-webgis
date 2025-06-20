@@ -188,3 +188,85 @@ input[type="checkbox"]:checked::after {
   background-color: black;
   border-radius: 80%;
 }
+
+/* Modernização visual dos checkboxes e marcadores do menu de camadas */
+.camada-item-header input[type="checkbox"] {
+  accent-color: #0078d7;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 2px solid #0078d7;
+  background: #fff;
+  transition: box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  margin-right: 10px;
+}
+.camada-item-header input[type="checkbox"]:checked {
+  background: linear-gradient(135deg, #0078d7 60%, #00c6fb 100%);
+  border-color: #00c6fb;
+}
+.camada-item-header label.camada-nome {
+  font-family: 'Nunito', Arial, sans-serif;
+  font-size: 1.08em;
+  color: #222;
+  letter-spacing: 0.01em;
+  padding-left: 2px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.camada-item-header input[type="checkbox"]:checked + label.camada-nome {
+  color: #0078d7;
+  font-weight: 600;
+}
+.camada-item {
+  background: #f8fafc;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 8px 12px;
+  transition: box-shadow 0.2s;
+}
+.camada-item:hover {
+  box-shadow: 0 2px 8px rgba(0,120,215,0.10);
+}
+.grupo-camadas {
+  background: #f1f5f9;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  padding: 6px 10px;
+}
+.grupo-header {
+  font-family: 'Nunito', Arial, sans-serif;
+  font-size: 1.08em;
+  color: #0078d7;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.toggle-button {
+  background: #e0e7ef;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1em;
+  color: #0078d7;
+  cursor: pointer;
+  border: none;
+  margin-right: 4px;
+  transition: background 0.2s;
+}
+.toggle-button:hover {
+  background: #cce4ff;
+}
+.grupo-checkbox {
+  accent-color: #00c6fb;
+  width: 18px;
+  height: 18px;
+  margin-left: auto;
+}
