@@ -87,30 +87,37 @@ window.map.on('click', function(e) {
 });
 
 // === Medição de distância e área ===
-import 'https://unpkg.com/leaflet-measure/dist/leaflet-measure.js';
-import 'https://unpkg.com/leaflet-measure/dist/leaflet-measure.css';
-L.control.measure({
-  primaryLengthUnit: 'meters',
-  secondaryLengthUnit: 'kilometers',
-  primaryAreaUnit: 'sqmeters',
-  secondaryAreaUnit: 'hectares',
-  position: 'topleft'
-}).addTo(window.map);
+// Removido import de CSS via JS. O CSS já está no <head> do HTML.
+// Para usar plugins como leaflet-measure e leaflet-draw, adicione os scripts e CSS no HTML:
+// <link rel="stylesheet" href="https://unpkg.com/leaflet-measure/dist/leaflet-measure.css" />
+// <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
+// <script src="https://unpkg.com/leaflet-measure/dist/leaflet-measure.min.js"></script>
+// <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+
+if (window.L && window.L.control && window.L.control.measure) {
+  L.control.measure({
+    primaryLengthUnit: 'meters',
+    secondaryLengthUnit: 'kilometers',
+    primaryAreaUnit: 'sqmeters',
+    secondaryAreaUnit: 'hectares',
+    position: 'topleft'
+  }).addTo(window.map);
+}
 
 // === Consulta espacial (seleção por polígono) ===
-import 'https://unpkg.com/leaflet-draw/dist/leaflet.draw.js';
-import 'https://unpkg.com/leaflet-draw/dist/leaflet.draw.css';
-const drawnItems = new L.FeatureGroup();
-window.map.addLayer(drawnItems);
-const drawControl = new L.Control.Draw({
-  edit: { featureGroup: drawnItems },
-  draw: { polygon: true, polyline: false, rectangle: true, circle: false, marker: false, circlemarker: false }
-});
-window.map.addControl(drawControl);
-window.map.on(L.Draw.Event.CREATED, function (e) {
-  drawnItems.addLayer(e.layer);
-  // Aqui você pode implementar consulta espacial WFS/WMS usando a geometria desenhada
-});
+if (window.L && window.L.Control && window.L.Control.Draw) {
+  const drawnItems = new L.FeatureGroup();
+  window.map.addLayer(drawnItems);
+  const drawControl = new L.Control.Draw({
+    edit: { featureGroup: drawnItems },
+    draw: { polygon: true, polyline: false, rectangle: true, circle: false, marker: false, circlemarker: false }
+  });
+  window.map.addControl(drawControl);
+  window.map.on(L.Draw.Event.CREATED, function (e) {
+    drawnItems.addLayer(e.layer);
+    // Aqui você pode implementar consulta espacial WFS/WMS usando a geometria desenhada
+  });
+}
 
 // Adiciona eventos aos botões de ferramentas do mapa
 import { showLegend, downloadLayerData, shareMapLink } from './menu_camadas.js';
