@@ -122,15 +122,13 @@
   <script type="module">
     import { GEOSERVER_URL, layerConfig } from './js/layers.js';
     import './js/menu_camadas.js';
+    import './js/mapa.js';
 
     window._activeLayers = {};
     window.qgisBaseUrl = GEOSERVER_URL;
 
     console.log('URL do QGIS Server:', GEOSERVER_URL);
   </script>
-
-  <!-- Inicialização do mapa e outros scripts comuns -->
-  <script type="module" src="js/mapa.js"></script>
   <script src="js/header.js"></script>
   <script src="js/rodape.js"></script>
 </body>
