@@ -157,6 +157,10 @@ footer.rodape-fad {
   opacity: 1;
 }
 
+.map-toolbar .material-icons {
+  color: #fff !important;
+}
+
 @media (max-width: 700px) {
   .map-toolbar {
     top: 60px;
