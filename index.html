@@ -41,6 +41,49 @@
     #legend-modal.active, #share-modal.active, #filter-modal.active {
       display: block;
     }
+
+    /* Estilos para o painel de medições */
+    .measurement-panel {
+      position: fixed;
+      top: 10%;
+      right: 10%;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      padding: 16px;
+      z-index: 2100;
+      max-width: 300px;
+      width: 100%;
+      display: none;
+    }
+    .measurement-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .measurement-header h3 {
+      font-size: 1.2em;
+      margin: 0;
+    }
+    .clear-btn {
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+    }
+    .measurement-body {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .measurement-item {
+      padding: 4px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .measurement-item:last-child {
+      border-bottom: none;
+    }
   </style>
 
   <!-- Fontes e Estilos -->
@@ -110,6 +153,15 @@
       <button class="tool-btn" id="btn-share" data-tooltip="Compartilhar Mapa">
         <span class="material-icons">share</span>
       </button>
+    </div>
+
+    <!-- Área de Resultados de Medição -->
+    <div id="measurement-results" class="measurement-panel">
+      <div class="measurement-header">
+        <h3>Resultados de Medição</h3>
+        <button id="clear-measurements" class="clear-btn">&times;</button>
+      </div>
+      <div id="measurement-list" class="measurement-body"></div>
     </div>
 
     <!-- Modais e Painéis -->

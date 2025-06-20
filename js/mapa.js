@@ -73,16 +73,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Esconde os controles padrão dos plugins
     document.querySelector('.leaflet-draw').style.display = 'none';
-    document.querySelector('.leaflet-control-measure').style.display = 'none';
-
-    // 4. LÓGICA DA BARRA DE FERRAMENTAS, MODAIS E ESTADO DAS FERRAMENTAS
+    document.querySelector('.leaflet-control-measure').style.display = 'none';    // 4. LÓGICA DA BARRA DE FERRAMENTAS, PAINÉIS E ESTADO DAS FERRAMENTAS
     // =================================================================
-    const basemapModal = document.getElementById('basemap-modal');
+    const basemapPanel = document.getElementById('basemap-panel');
     const legendModal = document.getElementById('legend-modal');
     const shareModal = document.getElementById('share-modal');
+    const measurementResults = document.getElementById('measurement-results');
 
-    let activeTool = null; // Controla a ferramenta ativa ('measure', 'draw')
+    let activeTool = null; // Controla a ferramenta ativa ('measure', 'draw', 'basemap')
     let currentDrawHandler = null;
+    let measurementCount = 0;
+
+    const togglePanel = (panel, forceState) => {
+        if (!panel) return;
+        const isActive = panel.classList.contains('active');
+        if (forceState === 'open' && !isActive) panel.classList.add('active');
+        else if (forceState === 'close' && isActive) panel.classList.remove('active');
+        else if (!forceState) panel.classList.toggle('active');
+    };
 
     const toggleModal = (modal, forceState) => {
         if (!modal) return;
@@ -90,6 +98,35 @@ document.addEventListener('DOMContentLoaded', () => {
         if (forceState === 'open' && !isActive) modal.classList.add('active');
         else if (forceState === 'close' && isActive) modal.classList.remove('active');
         else if (!forceState) modal.classList.toggle('active');
+    };
+
+    const addMeasurementResult = (type, value) => {
+        measurementCount++;
+        const measurementList = document.getElementById('measurement-list');
+        if (!measurementList) return;
+
+        const item = document.createElement('div');
+        item.className = 'measurement-item';
+        item.innerHTML = `
+            <div class="measurement-type">${type} #${measurementCount}</div>
+            <div class="measurement-value">${value}</div>
+        `;
+        measurementList.appendChild(item);
+        
+        // Mostra o painel de resultados
+        togglePanel(measurementResults, 'open');
+        
+        // Scroll para o final da lista
+        measurementList.scrollTop = measurementList.scrollHeight;
+    };
+
+    const clearMeasurements = () => {
+        const measurementList = document.getElementById('measurement-list');
+        if (measurementList) {
+            measurementList.innerHTML = '';
+        }
+        togglePanel(measurementResults, 'close');
+        measurementCount = 0;
     };
 
     const deactivateAllTools = () => {
@@ -103,12 +140,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (measureToggle && measureToggle.parentElement.classList.contains('leaflet-control-measure-on')) {
             measureToggle.click(); // Simula o clique para desativar
         }
+        // Fecha o painel de mapas base
+        togglePanel(basemapPanel, 'close');
         // Remove a classe 'active' de todos os botões de ferramenta
         document.querySelectorAll('.tool-btn.active').forEach(btn => btn.classList.remove('active'));
         activeTool = null;
     };
 
-    const populateBasemapModal = () => {
+    const populateBasemapPanel = () => {
         const basemapList = document.getElementById('basemap-list');
         if (!basemapList) return;
         basemapList.innerHTML = '';
@@ -118,25 +157,46 @@ document.addEventListener('DOMContentLoaded', () => {
             if (map.hasLayer(baseMaps[name])) {
                 item.classList.add('active');
             }
-            item.innerHTML = `<img src="https://via.placeholder.com/100x80.png?text=${name.replace(' ','+')}" alt="${name}"><span>${name}</span>`;
+            // Criar miniaturas simples com CSS ao invés de imagens externas
+            const thumbnail = document.createElement('div');
+            thumbnail.className = 'basemap-thumbnail';
+            thumbnail.style.cssText = `
+                width: 60px; height: 45px; border-radius: 4px; margin-right: 12px;
+                background: linear-gradient(45deg, #4a90e2, #7bb3f0);
+                display: flex; align-items: center; justify-content: center;
+                color: white; font-size: 10px; text-align: center;
+            `;
+            thumbnail.textContent = name.substring(0, 3);
+            
+            const span = document.createElement('span');
+            span.textContent = name;
+            span.style.fontSize = '14px';
+            
+            item.appendChild(thumbnail);
+            item.appendChild(span);
+            
             item.onclick = () => {
                 map.removeLayer(currentBaseMap);
                 currentBaseMap = baseMaps[name];
                 map.addLayer(currentBaseMap);
                 document.querySelectorAll('.basemap-item').forEach(el => el.classList.remove('active'));
                 item.classList.add('active');
-                setTimeout(() => toggleModal(basemapModal, 'close'), 200);
+                setTimeout(() => togglePanel(basemapPanel, 'close'), 300);
             };
             basemapList.appendChild(item);
         });
-    };
+    };    // --- Event Listeners para os Botões da Barra de Ferramentas ---
 
-    // --- Event Listeners para os Botões da Barra de Ferramentas ---
-
-    document.getElementById('btn-basemap').addEventListener('click', () => {
+    document.getElementById('btn-basemap').addEventListener('click', (e) => {
+        const button = e.currentTarget;
+        const isDeactivating = button.classList.contains('active');
         deactivateAllTools();
-        populateBasemapModal();
-        toggleModal(basemapModal, 'open');
+        if (!isDeactivating) {
+            populateBasemapPanel();
+            togglePanel(basemapPanel, 'open');
+            button.classList.add('active');
+            activeTool = 'basemap';
+        }
     });
 
     document.getElementById('btn-zoom-in').addEventListener('click', () => map.zoomIn());
@@ -173,15 +233,37 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-share').addEventListener('click', () => {
         deactivateAllTools();
         toggleModal(shareModal, 'open');
-    });
-
+    });    // Event listeners para fechar painéis e modais
     document.querySelectorAll('.modal-close-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             toggleModal(btn.closest('.modal-container'), 'close');
         });
     });
 
-    // 5. CONSULTA DE INFORMAÇÕES (GetFeatureInfo)
+    document.getElementById('basemap-panel-close-btn')?.addEventListener('click', () => {
+        togglePanel(basemapPanel, 'close');
+        document.getElementById('btn-basemap').classList.remove('active');
+        activeTool = null;
+    });
+
+    document.getElementById('clear-measurements')?.addEventListener('click', clearMeasurements);
+
+    // 5. EVENTOS DE MEDIÇÃO PARA CAPTURAR RESULTADOS
+    // =================================================================
+    map.on('measurefinish', (e) => {
+        if (e.measureType === 'distance') {
+            addMeasurementResult('Distância', e.totalDistance);
+        } else if (e.measureType === 'area') {
+            addMeasurementResult('Área', e.totalArea);
+        }
+        
+        // Desativa a ferramenta após a medição
+        if (activeTool === 'measure') {
+            deactivateAllTools();
+        }
+    });
+
+    // 6. CONSULTA DE INFORMAÇÕES (GetFeatureInfo)
     // =================================================================
     function getFeatureInfoUrl(latlng, layer, map) {
         const point = map.latLngToContainerPoint(latlng, map.getZoom());
@@ -235,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 6. EVENTOS DO MAPA PARA GERENCIAR ESTADO DAS FERRAMENTAS
+    // 7. EVENTOS DO MAPA PARA GERENCIAR ESTADO DAS FERRAMENTAS
     // =================================================================
     map.on(L.Draw.Event.CREATED, (event) => {
         drawnItems.addLayer(event.layer);
@@ -247,12 +329,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activeTool === 'draw') {
             deactivateAllTools();
         }
-    });
-
-    map.on('measurefinish', () => {
-        // Garante que o estado da UI seja redefinido ao finalizar a medição
-        if (activeTool === 'measure') {
-            deactivateAllTools();
-        }
+    });    map.on('measurefinish', () => {
+        // Este evento já é tratado na seção de eventos de medição acima
+        // Mantido aqui apenas para compatibilidade
     });
 });
