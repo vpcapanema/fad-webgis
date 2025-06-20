@@ -36,32 +36,54 @@ L.control.layers(baseMaps, null, { position: 'topleft', collapsed: false }).addT
 // === Medida de escala ===
 L.control.scale({ imperial: false }).addTo(window.map);
 
+// Função utilitária para construir a URL GetFeatureInfo para camadas WMS Leaflet
+function getFeatureInfoUrl(latlng, layer, map) {
+  const point = map.latLngToContainerPoint(latlng, map.getZoom());
+  const size = map.getSize();
+  const params = {
+    request: 'GetFeatureInfo',
+    service: 'WMS',
+    srs: 'EPSG:4326',
+    styles: '',
+    transparent: true,
+    version: '1.3.0',
+    format: 'image/png',
+    bbox: map.getBounds().toBBoxString(),
+    height: size.y,
+    width: size.x,
+    layers: layer.wmsParams.layers,
+    query_layers: layer.wmsParams.layers,
+    info_format: 'application/json',
+    i: Math.round(point.x),
+    j: Math.round(point.y)
+  };
+  const url = layer._url +
+    Object.keys(params)
+      .map(k => `${k}=${encodeURIComponent(params[k])}`)
+      .join('&');
+  return url;
+}
+
 // === Consulta dinâmica (popup ao clicar no mapa) ===
 window.map.on('click', function(e) {
-  const { lat, lng } = e.latlng;
-  // Consulta WMS GetFeatureInfo na camada ativa mais acima
-  const activeLayer = Object.values(window._activeLayers).slice(-1)[0];
-  if (!activeLayer) return;
-  const url = activeLayer.getFeatureInfoUrl(
-    e.latlng,
-    window.map.getZoom(),
-    { 'info_format': 'application/json' }
-  );
-  if (url) {
-    fetch(url)
-      .then(r => r.json())
-      .then(data => {
-        if (data.features && data.features.length > 0) {
-          const props = data.features[0].properties;
-          let html = '<b>Informações:</b><br><ul>';
-          for (const k in props) {
-            html += `<li><b>${k}</b>: ${props[k]}</li>`;
-          }
-          html += '</ul>';
-          L.popup().setLatLng(e.latlng).setContent(html).openOn(window.map);
+  // Procura a camada WMS ativa mais acima
+  const activeLayerName = Object.keys(window._activeLayers).slice(-1)[0];
+  const activeLayer = window._activeLayers[activeLayerName];
+  if (!activeLayer || !activeLayer.wmsParams) return;
+  const url = getFeatureInfoUrl(e.latlng, activeLayer, window.map);
+  fetch(url)
+    .then(r => r.json())
+    .then(data => {
+      if (data.features && data.features.length > 0) {
+        const props = data.features[0].properties;
+        let html = '<b>Informações:</b><br><ul>';
+        for (const k in props) {
+          html += `<li><b>${k}</b>: ${props[k]}</li>`;
         }
-      });
-  }
+        html += '</ul>';
+        L.popup().setLatLng(e.latlng).setContent(html).openOn(window.map);
+      }
+    });
 });
 
 // === Medição de distância e área ===
