@@ -93,9 +93,41 @@ footer.rodape-fad {
   box-shadow: 0 8px 24px 0 rgba(0,0,0,0.22), 0 2px 8px 0 rgba(0,0,0,0.11);
 }
 
+/* Estilos para o botão de ferramenta ativo */
+.map-toolbar .tool-btn.active {
+    background-color: #007bff; /* Azul para indicar ativação */
+    color: #fff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.7);
+}
+
 .map-toolbar .tool-btn:focus .tooltip {
   visibility: visible;
   opacity: 1;
+}
+
+/* Estilos dos Tooltips Modernos */
+.map-toolbar .tool-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: -10px; /* Distância do botão */
+    top: 50%;
+    transform: translateY(-50%) translateX(-100%);
+    background-color: #333;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+    z-index: 10000; /* Acima de outros elementos */
+}
+
+.map-toolbar .tool-btn:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(-110%); /* Efeito de surgimento */
 }
 
 /* Estilos para os Modais */

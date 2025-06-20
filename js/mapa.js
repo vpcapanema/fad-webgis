@@ -75,11 +75,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.leaflet-draw').style.display = 'none';
     document.querySelector('.leaflet-control-measure').style.display = 'none';
 
-    // 4. LÓGICA DA BARRA DE FERRAMENTAS E MODAIS
+    // 4. LÓGICA DA BARRA DE FERRAMENTAS, MODAIS E ESTADO DAS FERRAMENTAS
     // =================================================================
     const basemapModal = document.getElementById('basemap-modal');
     const legendModal = document.getElementById('legend-modal');
     const shareModal = document.getElementById('share-modal');
+
+    let activeTool = null; // Controla a ferramenta ativa ('measure', 'draw')
+    let currentDrawHandler = null;
 
     const toggleModal = (modal, forceState) => {
         if (!modal) return;
@@ -87,6 +90,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (forceState === 'open' && !isActive) modal.classList.add('active');
         else if (forceState === 'close' && isActive) modal.classList.remove('active');
         else if (!forceState) modal.classList.toggle('active');
+    };
+
+    const deactivateAllTools = () => {
+        // Desativa a ferramenta de desenho se estiver ativa
+        if (currentDrawHandler) {
+            currentDrawHandler.disable();
+            currentDrawHandler = null;
+        }
+        // Desativa a ferramenta de medição se estiver ativa
+        const measureToggle = document.querySelector('.leaflet-control-measure-toggle');
+        if (measureToggle && measureToggle.parentElement.classList.contains('leaflet-control-measure-on')) {
+            measureToggle.click(); // Simula o clique para desativar
+        }
+        // Remove a classe 'active' de todos os botões de ferramenta
+        document.querySelectorAll('.tool-btn.active').forEach(btn => btn.classList.remove('active'));
+        activeTool = null;
     };
 
     const populateBasemapModal = () => {
@@ -99,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (map.hasLayer(baseMaps[name])) {
                 item.classList.add('active');
             }
-            // Adicionar thumbnail (placeholder por enquanto)
             item.innerHTML = `<img src="https://via.placeholder.com/100x80.png?text=${name.replace(' ','+')}" alt="${name}"><span>${name}</span>`;
             item.onclick = () => {
                 map.removeLayer(currentBaseMap);
@@ -113,25 +131,49 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // --- Event Listeners para os Botões da Barra de Ferramentas ---
+
     document.getElementById('btn-basemap').addEventListener('click', () => {
+        deactivateAllTools();
         populateBasemapModal();
         toggleModal(basemapModal, 'open');
     });
+
     document.getElementById('btn-zoom-in').addEventListener('click', () => map.zoomIn());
     document.getElementById('btn-zoom-out').addEventListener('click', () => map.zoomOut());
 
-    // Simula o clique no botão invisível do plugin de medição
-    document.getElementById('btn-measure').addEventListener('click', () => {
-        document.querySelector('.leaflet-control-measure-toggle').click();
+    document.getElementById('btn-measure').addEventListener('click', (e) => {
+        const button = e.currentTarget;
+        const isDeactivating = button.classList.contains('active');
+        deactivateAllTools();
+        if (!isDeactivating) {
+            document.querySelector('.leaflet-control-measure-toggle').click();
+            button.classList.add('active');
+            activeTool = 'measure';
+        }
     });
 
-    // Ativa a primeira ferramenta de desenho (polígono) como exemplo
-    document.getElementById('btn-draw').addEventListener('click', () => {
-        new L.Draw.Polygon(map, drawControl.options.draw.polygon).enable();
+    document.getElementById('btn-draw').addEventListener('click', (e) => {
+        const button = e.currentTarget;
+        const isDeactivating = button.classList.contains('active');
+        deactivateAllTools();
+        if (!isDeactivating) {
+            currentDrawHandler = new L.Draw.Polygon(map, drawControl.options.draw.polygon);
+            currentDrawHandler.enable();
+            button.classList.add('active');
+            activeTool = 'draw';
+        }
     });
 
-    document.getElementById('btn-legend').addEventListener('click', () => toggleModal(legendModal, 'open'));
-    document.getElementById('btn-share').addEventListener('click', () => toggleModal(shareModal, 'open'));
+    document.getElementById('btn-legend').addEventListener('click', () => {
+        deactivateAllTools();
+        toggleModal(legendModal, 'open');
+    });
+    
+    document.getElementById('btn-share').addEventListener('click', () => {
+        deactivateAllTools();
+        toggleModal(shareModal, 'open');
+    });
 
     document.querySelectorAll('.modal-close-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -165,6 +207,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     map.on('click', function (e) {
+        // Não executa GetFeatureInfo se uma ferramenta estiver ativa
+        if (activeTool) return;
+
         if (window._activeLayers) {
             const activeLayerKeys = Object.keys(window._activeLayers);
             if (activeLayerKeys.length === 0) return;
@@ -187,6 +232,27 @@ document.addEventListener('DOMContentLoaded', () => {
                         L.popup().setLatLng(e.latlng).setContent(html).openOn(map);
                     }
                 }).catch(err => console.error("Erro no GetFeatureInfo:", err));
+        }
+    });
+
+    // 6. EVENTOS DO MAPA PARA GERENCIAR ESTADO DAS FERRAMENTAS
+    // =================================================================
+    map.on(L.Draw.Event.CREATED, (event) => {
+        drawnItems.addLayer(event.layer);
+        deactivateAllTools(); // Sai do modo de desenho após criar a forma
+    });
+
+    map.on('draw:drawstop', () => {
+        // Garante que o estado da UI seja redefinido se o desenho for cancelado
+        if (activeTool === 'draw') {
+            deactivateAllTools();
+        }
+    });
+
+    map.on('measurefinish', () => {
+        // Garante que o estado da UI seja redefinido ao finalizar a medição
+        if (activeTool === 'measure') {
+            deactivateAllTools();
         }
     });
 });
