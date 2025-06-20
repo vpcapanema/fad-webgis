@@ -86,6 +86,9 @@
 
     <section id="map"></section>
     <div class="map-toolbar">
+      <button class="tool-btn" id="btn-basemap">
+        <span class="material-icons">layers</span>
+      </button>
       <button class="tool-btn" id="btn-zoom-in">
         <span class="material-icons">zoom_in</span>
       </button>
@@ -107,6 +110,15 @@
       <button class="tool-btn" id="btn-share">
         <span class="material-icons">share</span>
       </button>
+    </div>
+
+    <!-- Modais -->
+    <div id="basemap-modal" class="modal-container">
+      <div class="modal-header">
+        <h2>Selecionar Mapa Base</h2>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div id="basemap-list" class="modal-body"></div>
     </div>
     <div id="legend-modal"></div>
     <div id="share-modal"></div>
