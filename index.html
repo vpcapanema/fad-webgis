@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="css/menu_camadas.css" />
   <link rel="stylesheet" href="css/rodape.css" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <!-- Projeções e Leaflet -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.js"></script>
@@ -67,6 +68,36 @@
       <button id="btn-share">Compartilhar Mapa</button>
       <button id="btn-legend">Legenda</button>
       <button id="btn-filter">Filtros</button>
+    </div>
+    <div class="map-toolbar">
+      <button class="tool-btn" id="btn-zoom-in" title="Zoom In">
+        <span class="material-icons">zoom_in</span>
+        <span class="tooltip">Zoom In</span>
+      </button>
+      <button class="tool-btn" id="btn-zoom-out" title="Zoom Out">
+        <span class="material-icons">zoom_out</span>
+        <span class="tooltip">Zoom Out</span>
+      </button>
+      <button class="tool-btn" id="btn-measure" title="Medição">
+        <span class="material-icons">straighten</span>
+        <span class="tooltip">Medição</span>
+      </button>
+      <button class="tool-btn" id="btn-draw" title="Desenhar">
+        <span class="material-icons">edit</span>
+        <span class="tooltip">Desenhar</span>
+      </button>
+      <button class="tool-btn" id="btn-legend" title="Legenda">
+        <span class="material-icons">legend_toggle</span>
+        <span class="tooltip">Legenda</span>
+      </button>
+      <button class="tool-btn" id="btn-download" title="Download">
+        <span class="material-icons">download</span>
+        <span class="tooltip">Download</span>
+      </button>
+      <button class="tool-btn" id="btn-share" title="Compartilhar">
+        <span class="material-icons">share</span>
+        <span class="tooltip">Compartilhar</span>
+      </button>
     </div>
     <div id="legend-modal" style="display:none;"></div>
     <div id="share-modal" style="display:none;"></div>

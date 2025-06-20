@@ -73,19 +73,98 @@ footer.rodape-fad {
 #btn-filter::before { content: '🔎 '; }
 
 #legend-modal, #share-modal, #filter-modal {
-  position: fixed;
-  top: 120px;
-  right: 40px;
-  min-width: 220px;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-  padding: 16px;
-  z-index: 2000;
   display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  padding: 24px 32px;
+  z-index: 2000;
+  min-width: 220px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 #legend-modal.active, #share-modal.active, #filter-modal.active {
   display: block;
+}
+
+.map-toolbar {
+  position: absolute;
+  top: 90px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 1200;
+  background: rgba(255,255,255,0.98);
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  padding: 14px 10px;
+  align-items: center;
+  min-width: 60px;
+}
+
+.map-toolbar .tool-btn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: #1976d2;
+  color: #fff;
+  font-size: 1.7em;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+  position: relative;
+}
+
+.map-toolbar .tool-btn:hover, .map-toolbar .tool-btn:focus {
+  background: #005bb5;
+  transform: scale(1.08);
+}
+
+.map-toolbar .tool-btn .tooltip {
+  visibility: hidden;
+  width: max-content;
+  background: #222;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 4px 10px;
+  position: absolute;
+  left: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1300;
+  font-size: 0.95em;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.map-toolbar .tool-btn:hover .tooltip, .map-toolbar .tool-btn:focus .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+@media (max-width: 700px) {
+  .map-toolbar {
+    top: 60px;
+    left: 8px;
+    padding: 8px 4px;
+    min-width: 40px;
+  }
+  .map-toolbar .tool-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.2em;
+  }
 }
