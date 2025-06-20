@@ -6,6 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const map = window.map;
   const sidebarContent = document.getElementById('sidebar-content');
 
+  // Novo: cache global de instâncias de camadas
+  window._layerCache = window._layerCache || {};
+  window._activeLayers = window._activeLayers || {};
+  const MAX_ACTIVE_LAYERS = 5;
+
   const wfsStyle = {
     color: "#ff0000",
     weight: 2,
@@ -31,23 +36,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
         checkbox.addEventListener('change', () => {
           if (checkbox.checked) {
+            // Limite de camadas ativas
+            const activeNames = Object.keys(window._activeLayers);
+            if (activeNames.length >= MAX_ACTIVE_LAYERS) {
+              // Desativa a camada mais antiga
+              const oldest = activeNames[0];
+              const oldestCheckbox = document.getElementById(oldest);
+              if (oldestCheckbox) {
+                oldestCheckbox.checked = false;
+                oldestCheckbox.dispatchEvent(new Event('change'));
+              }
+            }
+            // Ativa camada (WFS ou WMS)
             if (cfg.type === 'wfs') {
-              const wfsUrl = `${GEOSERVER_URL}&SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=${cfg.layer}&OUTPUTFORMAT=application/json`;
-              fetch(wfsUrl)
-                .then(r => r.json())
-                .then(data => {
-                  window._activeLayers[title] = L.geoJSON(data, {
-                    style: wfsStyle
-                  }).addTo(map);
-                  window._activeLayers[title].bringToFront();
-                });
+              if (!window._layerCache[title]) {
+                const wfsUrl = `${GEOSERVER_URL}&SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=${cfg.layer}&OUTPUTFORMAT=application/json`;
+                fetch(wfsUrl)
+                  .then(r => r.json())
+                  .then(data => {
+                    window._layerCache[title] = L.geoJSON(data, { style: wfsStyle });
+                    window._activeLayers[title] = window._layerCache[title].addTo(map);
+                    window._activeLayers[title].bringToFront();
+                  });
+              } else {
+                window._activeLayers[title] = window._layerCache[title].addTo(map);
+                window._activeLayers[title].bringToFront();
+              }
             } else {
-              window._activeLayers[title] = L.tileLayer.wms(GEOSERVER_URL, {
-                layers: cfg.layer,
-                transparent: true,
-                format: 'image/png',
-                version: '1.3.0'
-              }).addTo(map);
+              if (!window._layerCache[title]) {
+                window._layerCache[title] = L.tileLayer.wms(GEOSERVER_URL, {
+                  layers: cfg.layer,
+                  transparent: true,
+                  format: 'image/png',
+                  version: '1.3.0'
+                });
+              }
+              window._activeLayers[title] = window._layerCache[title].addTo(map);
               window._activeLayers[title].bringToFront();
             }
           } else {
