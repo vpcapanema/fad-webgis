@@ -118,18 +118,8 @@
     <div>Desenvolvido por: VPC-GEOSER</div>
   </footer>
 
-  <!-- ✅ Script Módulo Unificado -->
-  <script type="module">
-    window.addEventListener('DOMContentLoaded', () => {
-      import('./js/layers.js').then(({ GEOSERVER_URL, layerConfig }) => {
-        window.qgisBaseUrl = GEOSERVER_URL;
-        window._activeLayers = {};
-        console.log('URL do QGIS Server:', GEOSERVER_URL);
-      });
-      import('./js/menu_camadas.js');
-      import('./js/mapa.js');
-    });
-  </script>
+  <!-- ✅ Script Módulo Único e Simples -->
+  <script type="module" src="js/mapa.js"></script>
   <script src="js/header.js"></script>
   <script src="js/rodape.js"></script>
 </body>
