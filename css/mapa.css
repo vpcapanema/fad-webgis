@@ -96,22 +96,23 @@ footer.rodape-fad {
 .map-toolbar {
   position: absolute;
   top: 90px;
-  left: 24px;
+  right: 24px;
+  left: auto;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
   z-index: 1200;
-  background: rgba(255,255,255,0.98);
-  border-radius: 18px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-  padding: 14px 10px;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
   align-items: center;
-  min-width: 60px;
+  min-width: 0;
 }
 
 .map-toolbar .tool-btn {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,16 +120,17 @@ footer.rodape-fad {
   border-radius: 50%;
   background: #1976d2;
   color: #fff;
-  font-size: 1.7em;
+  font-size: 1.35em;
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 12px 0 rgba(0,0,0,0.22), 0 1.5px 4px 0 rgba(0,0,0,0.10);
   position: relative;
 }
 
 .map-toolbar .tool-btn:hover, .map-toolbar .tool-btn:focus {
   background: #005bb5;
-  transform: scale(1.08);
+  transform: scale(1.09);
+  box-shadow: 0 8px 24px 0 rgba(0,0,0,0.28), 0 2px 8px 0 rgba(0,0,0,0.13);
 }
 
 .map-toolbar .tool-btn .tooltip {
@@ -140,7 +142,7 @@ footer.rodape-fad {
   border-radius: 6px;
   padding: 4px 10px;
   position: absolute;
-  left: 60px;
+  right: 50px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 1300;
@@ -158,13 +160,12 @@ footer.rodape-fad {
 @media (max-width: 700px) {
   .map-toolbar {
     top: 60px;
-    left: 8px;
-    padding: 8px 4px;
-    min-width: 40px;
+    right: 8px;
+    padding: 0;
   }
   .map-toolbar .tool-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 1.2em;
+    width: 30px;
+    height: 30px;
+    font-size: 1em;
   }
 }
