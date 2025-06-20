@@ -1,14 +1,17 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  height: 100vh; /* Garante altura total da viewport */
   overflow: hidden;
   font-family: 'Nunito', sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 main {
   display: flex;
-  height: calc(100vh - 120px); /* Altura total da tela menos cabeçalho e rodapé */
+  flex: 1; /* Ocupa o espaço restante entre header e footer */
+  overflow: hidden; /* Previne scrollbars no container principal */
 }
 
 #map {
