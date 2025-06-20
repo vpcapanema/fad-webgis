@@ -122,15 +122,30 @@ if (window.L && window.L.Control && window.L.Control.Draw) {
 // Adiciona eventos aos botões de ferramentas do mapa
 import { showLegend, downloadLayerData, shareMapLink } from './menu_camadas.js';
 
-document.getElementById('btn-legend').onclick = () => {
-  // Exemplo de legenda simples, pode ser melhorado para gerar dinamicamente
-  showLegend('<b>Legenda</b><br>Ative uma camada para ver a legenda.');
-};
-document.getElementById('btn-download').onclick = () => {
-  const layerName = Object.keys(window._activeLayers).slice(-1)[0];
-  if (layerName) downloadLayerData(layerName);
-};
-document.getElementById('btn-share').onclick = () => {
-  shareMapLink();
-};
-// Filtros e consulta espacial podem ser integrados aqui também.
+document.addEventListener('DOMContentLoaded', () => {
+  // Eventos dos botões do menu lateral
+  const btnLegend = document.getElementById('btn-legend');
+  if (btnLegend) {
+    btnLegend.onclick = () => {
+      showLegend('<b>Legenda</b><br>Ative uma camada para ver a legenda.');
+    };
+  }
+  const btnDownload = document.getElementById('btn-download');
+  if (btnDownload) {
+    btnDownload.onclick = () => {
+      const layerName = Object.keys(window._activeLayers).slice(-1)[0];
+      if (layerName) downloadLayerData(layerName);
+    };
+  }
+  const btnShare = document.getElementById('btn-share');
+  if (btnShare) {
+    btnShare.onclick = () => {
+      shareMapLink();
+    };
+  }
+  // Exemplo: Zoom in/out
+  const btnZoomIn = document.getElementById('btn-zoom-in');
+  if (btnZoomIn) btnZoomIn.onclick = () => window.map.zoomIn();
+  const btnZoomOut = document.getElementById('btn-zoom-out');
+  if (btnZoomOut) btnZoomOut.onclick = () => window.map.zoomOut();
+});
