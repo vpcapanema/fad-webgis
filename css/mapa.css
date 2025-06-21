@@ -492,6 +492,45 @@ div.leaflet-control-measure,
   }
 }
 
+/* Ajustes responsivos para sidebar em mobile */
+@media (max-width: 900px) {
+  #sidebar {
+    position: absolute !important;
+    top: 100px; /* abaixo do header */
+    left: -300px;
+    width: 280px;
+    height: calc(100% - 100px - 40px);
+    transition: left 0.3s ease;
+  }
+  body.sidebar-open #sidebar {
+    left: 0;
+  }
+  /* Botão hamburger para toggle da sidebar */
+  #btn-toggle-sidebar {
+    display: flex !important;
+    position: absolute;
+    top: 110px;
+    left: 10px;
+    z-index: 1400;
+    background: #fff;
+    border: none;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .map-toolbar {
+    right: 10px;
+  }
+}
+
+/* Esconder toggle em desktop */
+#btn-toggle-sidebar {
+  display: none;
+}
+
 /* Estilos para legenda */
 .no-legend {
     text-align: center;

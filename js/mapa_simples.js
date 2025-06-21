@@ -309,7 +309,21 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.appendChild(testBtn);        }, 1000);
     }
 
-    // 12. GARANTIR INICIALIZAÇÃO LIMPA
+    // 12. Toggle de sidebar em mobile
+    const toggleBtn = document.getElementById('btn-toggle-sidebar');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('sidebar-open');
+        });
+    }
+    // Fechar sidebar ao clicar no mapa (mobile)
+    map.on('click', () => {
+        if (document.body.classList.contains('sidebar-open')) {
+            document.body.classList.remove('sidebar-open');
+        }
+    });
+
+    // 13. GARANTIR INICIALIZAÇÃO LIMPA
     setTimeout(hideAllPanels, 100);
     
     console.log('✅ WebGIS estático inicializado com sucesso!');
