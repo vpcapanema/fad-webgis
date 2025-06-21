@@ -189,7 +189,7 @@ footer.rodape-fad {
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  z-index: 1900; /* Abaixo do modal, mas acima do mapa */
+  z-index: 1250; /* Abaixo da sidebar */
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -475,4 +475,182 @@ footer.rodape-fad {
     height: 38px;
     font-size: 1.2em;
   }
+}
+
+/* Estilos para legenda */
+.no-legend {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.no-legend p {
+    margin: 10px 0;
+}
+
+.legend-active h4 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 16px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 8px;
+}
+
+.legend-image-container {
+    text-align: center;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+}
+
+.legend-image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 3px;
+}
+
+/* Estilos para painel de resultados de medição */
+.measurement-panel {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 300px;    background: rgba(255, 255, 255, 0.95);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 1100;
+    display: none;
+    transition: all 0.3s ease;
+}
+
+.measurement-panel.active {
+    display: block;
+    animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.measurement-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 10px 10px 0 0;
+}
+
+.measurement-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.clear-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.clear-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.measurement-body {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.measurement-item {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 8px;
+    transition: all 0.2s ease;
+}
+
+.measurement-item:hover {
+    background: #e9ecef;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.measurement-type {
+    font-weight: 600;
+    color: #007bff;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.measurement-value {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Proteção da área da barra lateral esquerda */
+.sidebar-protected-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100vh;
+    z-index: 1299;
+    pointer-events: none; /* Permite cliques através dela quando necessário */
+}
+
+/* Exceção para modais centralizados */
+#legend-modal,
+#share-modal,
+#filter-modal {
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+/* Forçar ocultação de painéis e modais por padrão */
+#basemap-panel:not(.active),
+#measurement-results:not(.active),
+#legend-modal:not(.active),
+#share-modal:not(.active),
+#filter-modal:not(.active) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Mostrar apenas quando ativos */
+#basemap-panel.active,
+#measurement-results.active,
+#legend-modal.active,
+#share-modal.active,
+#filter-modal.active {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
