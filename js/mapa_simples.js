@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. ESCONDER CONTROLES INICIALMENTE - SEM forçar display:none
     setTimeout(() => {
-        const drawEl = document.querySelector('.leaflet-draw');
+        const drawEl = document.querySelector('.leaflet-control-draw');
         const measureEl = document.querySelector('.leaflet-control-measure');
         
         // Apenas remove a classe active, deixa o CSS decidir
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // Esconder controles - REMOVER classe active e deixar CSS decidir
-        const drawEl = document.querySelector('.leaflet-draw');
+        const drawEl = document.querySelector('.leaflet-control-draw');
         const measureEl = document.querySelector('.leaflet-control-measure');
         if (drawEl) {
             drawEl.classList.remove('active');
@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.currentTarget.classList.add('active');            activeTool = 'draw';
             
             // Mostrar controle de desenho - REMOVER style.display para deixar CSS funcionar
-            const drawEl = document.querySelector('.leaflet-draw');
+            const drawEl = document.querySelector('.leaflet-control-draw');
             if (drawEl) {
                 drawEl.classList.add('active');
                 // Remover qualquer style.display forçado

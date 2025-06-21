@@ -479,6 +479,37 @@ div.leaflet-control-measure,
     pointer-events: auto !important;
 }
 
+/* Ajustar seletores de controle de desenho para .leaflet-control-draw */
+/* Ocultar controle de desenho por padrão */
+.leaflet-control-draw,
+.leaflet-control-draw * {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Apenas quando ativo */
+.leaflet-control-draw.active,
+.leaflet-control-draw.active * {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.leaflet-control-draw.active .leaflet-draw-toolbar,
+.leaflet-control-draw.active .leaflet-draw-section,
+.leaflet-control-draw.active .leaflet-draw-actions,
+.leaflet-control-draw.active .leaflet-draw-actions-top,
+.leaflet-control-draw.active .leaflet-draw-actions-bottom,
+.leaflet-control-draw.active .leaflet-draw-toolbar a {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
 @media (max-width: 700px) {
   .map-toolbar {
     top: 60px;
