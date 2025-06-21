@@ -1,5 +1,5 @@
 footer.rodape-fad {
-  background-color: #003366;
+  background: linear-gradient(90deg, #007a29 0%, #004080 100%);
   color: white;
   display: flex;
   align-items: center;
@@ -44,4 +44,3 @@ footer.rodape-fad > * {
   display: flex;
   align-items: center;
 }
- 
