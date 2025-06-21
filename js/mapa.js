@@ -69,11 +69,22 @@ document.addEventListener('DOMContentLoaded', () => {
         edit: { featureGroup: drawnItems },
         draw: { polygon: true, polyline: true, rectangle: true, circle: true, marker: true }
     });
-    map.addControl(drawControl);
+    map.addControl(drawControl);    // Inicialmente esconde os controles padrão dos plugins
+    const drawControlElement = document.querySelector('.leaflet-draw');
+    const measureControlElement = document.querySelector('.leaflet-control-measure');
+    
+    if (drawControlElement) drawControlElement.style.display = 'none';
+    if (measureControlElement) measureControlElement.style.display = 'none';
 
-    // Esconde os controles padrão dos plugins
-    document.querySelector('.leaflet-draw').style.display = 'none';
-    document.querySelector('.leaflet-control-measure').style.display = 'none';    // 4. LÓGICA DA BARRA DE FERRAMENTAS, PAINÉIS E ESTADO DAS FERRAMENTAS
+    // Função para mostrar/esconder controles dos plugins
+    const togglePluginControls = (showDraw = false, showMeasure = false) => {
+        if (drawControlElement) {
+            drawControlElement.style.display = showDraw ? 'block' : 'none';
+        }
+        if (measureControlElement) {
+            measureControlElement.style.display = showMeasure ? 'block' : 'none';
+        }
+    };// 4. LÓGICA DA BARRA DE FERRAMENTAS, PAINÉIS E ESTADO DAS FERRAMENTAS
     // =================================================================
     const basemapPanel = document.getElementById('basemap-panel');
     const legendModal = document.getElementById('legend-modal');
@@ -127,9 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         togglePanel(measurementResults, 'close');
         measurementCount = 0;
-    };
-
-    const deactivateAllTools = () => {
+    };    const deactivateAllTools = () => {
         // Desativa a ferramenta de desenho se estiver ativa
         if (currentDrawHandler) {
             currentDrawHandler.disable();
@@ -140,6 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (measureToggle && measureToggle.parentElement.classList.contains('leaflet-control-measure-on')) {
             measureToggle.click(); // Simula o clique para desativar
         }
+        // Esconde todos os controles dos plugins
+        togglePluginControls(false, false);
         // Fecha o painel de mapas base
         togglePanel(basemapPanel, 'close');
         // Remove a classe 'active' de todos os botões de ferramenta
@@ -200,13 +211,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('btn-zoom-in').addEventListener('click', () => map.zoomIn());
-    document.getElementById('btn-zoom-out').addEventListener('click', () => map.zoomOut());
-
-    document.getElementById('btn-measure').addEventListener('click', (e) => {
+    document.getElementById('btn-zoom-out').addEventListener('click', () => map.zoomOut());    document.getElementById('btn-measure').addEventListener('click', (e) => {
         const button = e.currentTarget;
         const isDeactivating = button.classList.contains('active');
         deactivateAllTools();
         if (!isDeactivating) {
+            togglePluginControls(false, true); // Mostra controle de medição
             document.querySelector('.leaflet-control-measure-toggle').click();
             button.classList.add('active');
             activeTool = 'measure';
@@ -218,6 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const isDeactivating = button.classList.contains('active');
         deactivateAllTools();
         if (!isDeactivating) {
+            togglePluginControls(true, false); // Mostra controle de desenho
             currentDrawHandler = new L.Draw.Polygon(map, drawControl.options.draw.polygon);
             currentDrawHandler.enable();
             button.classList.add('active');

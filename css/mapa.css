@@ -399,6 +399,55 @@ footer.rodape-fad {
     background: #0056b3;
 }
 
+/* Estilos para controles dos plugins Leaflet */
+.leaflet-control-measure,
+.leaflet-draw {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    border: 1px solid #ddd !important;
+    z-index: 1500 !important;
+}
+
+.leaflet-control-measure .leaflet-control-measure-toggle,
+.leaflet-draw-toolbar a {
+    background: #fff !important;
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    color: #333 !important;
+    transition: background-color 0.2s !important;
+}
+
+.leaflet-control-measure .leaflet-control-measure-toggle:hover,
+.leaflet-draw-toolbar a:hover {
+    background: #f0f0f0 !important;
+    border-color: #007bff !important;
+}
+
+.leaflet-control-measure-interaction {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 6px !important;
+    padding: 8px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    border: 1px solid #ddd !important;
+}
+
+/* Posicionamento dos controles dos plugins */
+.leaflet-top.leaflet-left {
+    top: 120px !important; /* Abaixo da barra de ferramentas */
+    left: 10px !important;
+}
+
+.leaflet-control-measure {
+    margin-left: 0 !important;
+    margin-top: 10px !important;
+}
+
+.leaflet-draw {
+    margin-left: 0 !important;
+    margin-top: 10px !important;
+}
+
 @media (max-width: 700px) {
   .map-toolbar {
     top: 60px;
