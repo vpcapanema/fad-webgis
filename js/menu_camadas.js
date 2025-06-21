@@ -54,7 +54,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetch(wfsUrl)
                   .then(r => r.json())
                   .then(data => {
-                    window._layerCache[title] = L.geoJSON(data, { style: wfsStyle });
+                    window._layerCache[title] = L.geoJSON(data, { 
+                      style: wfsStyle,
+                      onEachFeature: (feature, layer) => {
+                        layer.on('click', () => {
+                          if (window.showInfoModal) window.showInfoModal(feature.properties);
+                        });
+                      }
+                    });
                     window._activeLayers[title] = window._layerCache[title].addTo(map);
                     window._activeLayers[title].bringToFront();
                   });

@@ -791,3 +791,15 @@ div.leaflet-control-measure,
 .leaflet-control-measure.leaflet-bar.active {
   display: block !important;
 }
+
+/* Barra de carregamento de camadas */
+#loading-bar {
+  position: absolute;
+  top: 90px;
+  left: 0;
+  height: 4px;
+  width: 0;
+  background: #007bff;
+  z-index: 1400;
+  transition: width 0.2s ease;
+}

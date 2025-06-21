@@ -130,6 +130,19 @@ document.addEventListener('DOMContentLoaded', () => {
         showPanel('#measurement-results');
     }
 
+    // Funções de modal de informações
+    const infoModal = document.getElementById('info-modal');
+    const infoContent = document.getElementById('info-content');
+    document.querySelector('#info-modal .modal-close-btn')?.addEventListener('click', () => {
+        infoModal.classList.remove('active');
+    });
+    function showInfoModal(props) {
+        infoContent.innerHTML = '<ul>' +
+            Object.entries(props).map(([k,v]) => `<li><strong>${k}:</strong> ${v}</li>`).join('') +
+            '</ul>';
+        infoModal.classList.add('active');
+    }
+
     // 7. EVENT LISTENERS DOS BOTÕES
     
     // Botão Mapas Base
@@ -314,6 +327,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 13. GARANTIR INICIALIZAÇÃO LIMPA
     setTimeout(hideAllPanels, 100);
-    
+
+    // 14. BARRA DE CARREGAMENTO
+    let loadCounter = 0;
+    const loadingBar = document.getElementById('loading-bar');
+    function startLoading() {
+        loadCounter++;
+        loadingBar.style.width = '30%';
+    }
+    function endLoading() {
+        loadCounter = Math.max(0, loadCounter - 1);
+        if (loadCounter === 0) {
+            loadingBar.style.width = '100%';
+            setTimeout(() => { loadingBar.style.width = '0'; }, 500);
+        } else {
+            loadingBar.style.width = '60%';
+        }
+    }
+    // Anexar eventos a camadas base
+    Object.values(baseMaps).forEach(layer => {
+        if (layer instanceof L.TileLayer) {
+            layer.on('loading', startLoading).on('load', endLoading);
+        }
+    });
+
     console.log('✅ WebGIS estático inicializado com sucesso!');
 });
