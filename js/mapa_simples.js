@@ -73,14 +73,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remove a classe active se existir e garante que estejam ocultos
         if (drawEl) {
             drawEl.classList.remove('active');
-            drawEl.style.display = 'none'; // Garantia extra
+            drawEl.style.display = 'none';
         }
         if (measureEl) {
             measureEl.classList.remove('active');
-            measureEl.style.display = 'none'; // Garantia extra
+            measureEl.style.display = 'none';
         }
-        
-        console.log('✅ Controles de plugins ocultados na inicialização');
     }, 500);
 
     // 5. VARIÁVEIS DE ESTADO SIMPLES
@@ -106,14 +104,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Esconder controles usando classes CSS
         const drawEl = document.querySelector('.leaflet-draw');
-        const measureEl = document.querySelector('.leaflet-control-measure');
-        if (drawEl) {
+        const measureEl = document.querySelector('.leaflet-control-measure');        if (drawEl) {
             drawEl.classList.remove('active');
-            drawEl.style.display = 'none'; // Garantia extra
+            drawEl.style.display = 'none';
         }
         if (measureEl) {
             measureEl.classList.remove('active');
-            measureEl.style.display = 'none'; // Garantia extra
+            measureEl.style.display = 'none';
         }
         
         activeTool = null;
@@ -193,10 +190,9 @@ document.addEventListener('DOMContentLoaded', () => {
             activeTool = 'measure';
             
             // Mostrar controle de medição usando classe CSS
-            const measureEl = document.querySelector('.leaflet-control-measure');
-            if (measureEl) {
+            const measureEl = document.querySelector('.leaflet-control-measure');            if (measureEl) {
                 measureEl.classList.add('active');
-                measureEl.style.display = 'block'; // Garantia extra
+                measureEl.style.display = 'block';
             }
             
             // Ativar ferramenta
@@ -215,10 +211,9 @@ document.addEventListener('DOMContentLoaded', () => {
             activeTool = 'draw';
             
             // Mostrar controle de desenho usando classe CSS
-            const drawEl = document.querySelector('.leaflet-draw');
-            if (drawEl) {
+            const drawEl = document.querySelector('.leaflet-draw');            if (drawEl) {
                 drawEl.classList.add('active');
-                drawEl.style.display = 'block'; // Garantia extra
+                drawEl.style.display = 'block';
             }
         }
     });
@@ -311,37 +306,8 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             document.body.appendChild(testBtn);
         }, 1000);
-    }
-
-    // 12. GARANTIR INICIALIZAÇÃO LIMPA
+    }    // 12. GARANTIR INICIALIZAÇÃO LIMPA
     setTimeout(hideAllPanels, 100);
-    
-    // FUNÇÃO PARA GARANTIR OCULTAÇÃO TOTAL DOS CONTROLES
-    function forceHideAllPluginControls() {
-        const selectors = [
-            '.leaflet-draw',
-            '.leaflet-control-measure',
-            '.leaflet-draw-toolbar',
-            '.leaflet-control-measure-toggle',
-            '.leaflet-control-measure-interaction'
-        ];
-        
-        selectors.forEach(selector => {
-            const elements = document.querySelectorAll(selector);
-            elements.forEach(el => {
-                if (!el.classList.contains('active')) {
-                    el.style.cssText = 'display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; position: absolute !important; left: -9999px !important; top: -9999px !important;';
-                    el.classList.remove('active');
-                }
-            });
-        });
-        
-        console.log('🔒 Controles de plugins forçadamente ocultos');
-    }
-
-    // Executar ocultação periodicamente para garantir que nada apareça
-    forceHideAllPluginControls();
-    setInterval(forceHideAllPluginControls, 1000);
     
     console.log('✅ WebGIS estático inicializado com sucesso!');
 });
