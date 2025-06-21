@@ -21,41 +21,63 @@
       flex: 1;
       height: 100%;
       min-height: 400px;
+    }    /* CSS SIMPLES PARA APLICAÇÃO ESTÁTICA */
+    
+    /* Painéis e modais - OCULTOS POR PADRÃO */
+    #basemap-panel, #measurement-results, #legend-modal, #share-modal, #filter-modal {
+      display: none !important;
     }
-    #legend-modal, #share-modal, #filter-modal {
-      display: none;
+    
+    /* MOSTRAR APENAS QUANDO ATIVO */
+    #basemap-panel.active, #measurement-results.active, #legend-modal.active, #share-modal.active, #filter-modal.active {
+      display: block !important;
+    }
+    
+    /* Painel de medição simples */
+    #measurement-results {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      width: 280px;
+      z-index: 1100;
+    }
+    
+    /* Painel de mapas base simples */
+    #basemap-panel {
+      position: absolute;
+      top: 90px;
+      right: 80px;
+      width: 250px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 1100;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    /* Modais centralizados simples */
+    #legend-modal, #share-modal {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
-      padding: 24px 32px;
-      z-index: 2000;
-      min-width: 220px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      z-index: 1200;
+      min-width: 300px;
       max-width: 90vw;
       max-height: 80vh;
       overflow-y: auto;
-    }
-    #legend-modal.active, #share-modal.active, #filter-modal.active {
-      display: block;
-    }
-
-    /* Estilos para o painel de medições */
-    .measurement-panel {
-      position: fixed;
-      top: 10%;
-      right: 10%;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      padding: 16px;
-      z-index: 2100;
-      max-width: 300px;
-      width: 100%;
-      display: none;
     }
     .measurement-header {
       display: flex;
@@ -222,13 +244,12 @@
     <div class="rodape-escala" id="escala-container">Escala: 1:—</div>
     <div>Desenvolvido por: VPC-GEOSER</div>
   </footer>
-
   <!-- ✅ Scripts em ordem correta -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet-measure/dist/leaflet-measure.js"></script>
   <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
-  <script type="module" src="js/mapa.js"></script>
+  <script src="js/mapa_simples.js"></script>
   <script type="module" src="js/menu_camadas.js"></script>
   <script src="js/header.js"></script>
   <script src="js/rodape.js"></script>

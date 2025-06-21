@@ -399,69 +399,80 @@ footer.rodape-fad {
     background: #0056b3;
 }
 
-/* Estilos para controles dos plugins Leaflet - FORÇAR VISIBILIDADE */
+/* Estilos para controles dos plugins Leaflet - OCULTAR POR PADRÃO */
 .leaflet-control-measure,
 .leaflet-draw {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    background: rgba(255, 255, 255, 0.95) !important;
-    border-radius: 8px !important;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.25) !important;
-    border: 2px solid #007bff !important;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
     z-index: 2000 !important;
     position: relative !important;
 }
 
-.leaflet-control-measure .leaflet-control-measure-toggle,
-.leaflet-draw-toolbar a {
-    background: #fff !important;
-    border: 1px solid #007bff !important;
-    border-radius: 4px !important;
-    color: #333 !important;
-    transition: all 0.2s !important;
-    padding: 8px !important;
-    margin: 2px !important;
-    display: inline-block !important;
-    visibility: visible !important;
+/* REGRAS SUPER ESPECÍFICAS PARA OCULTAR CONTROLES DE PLUGINS */
+/* Todas as possíveis classes e elementos dos plugins Leaflet Draw e Measure */
+.leaflet-top .leaflet-left .leaflet-draw,
+.leaflet-top .leaflet-right .leaflet-control-measure,
+div.leaflet-draw,
+div.leaflet-control-measure,
+.leaflet-draw-toolbar,
+.leaflet-control-measure-toggle,
+.leaflet-control-measure-interaction,
+.leaflet-draw-section,
+.leaflet-draw-actions,
+.leaflet-draw-actions-top,
+.leaflet-draw-actions-bottom {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
 }
 
-.leaflet-control-measure .leaflet-control-measure-toggle:hover,
-.leaflet-draw-toolbar a:hover {
-    background: #007bff !important;
-    color: white !important;
-    transform: scale(1.05) !important;
+/* FORÇA OCULTAR com seletores ainda mais específicos */
+.leaflet-container .leaflet-top .leaflet-left .leaflet-draw,
+.leaflet-container .leaflet-top .leaflet-right .leaflet-control-measure,
+.leaflet-container div.leaflet-draw,
+.leaflet-container div.leaflet-control-measure {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    z-index: -1 !important;
 }
 
-.leaflet-control-measure-interaction {
-    background: rgba(255, 255, 255, 0.98) !important;
-    border-radius: 8px !important;
-    padding: 12px !important;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important;
-    border: 2px solid #007bff !important;
-    z-index: 2100 !important;
-    font-weight: bold !important;
+/* Somente quando os controles principais têm a classe .active */
+.leaflet-control-measure.active,
+.leaflet-draw.active {
     display: block !important;
     visibility: visible !important;
-}
-
-/* Posicionamento dos controles dos plugins */
-.leaflet-top.leaflet-left {
-    top: 120px !important;
-    left: 20px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
     z-index: 2000 !important;
 }
 
-.leaflet-control-measure {
-    margin-left: 0 !important;
-    margin-top: 10px !important;
-    z-index: 2000 !important;
-}
-
-.leaflet-draw {
-    margin-left: 0 !important;
-    margin-top: 10px !important;
-    z-index: 2000 !important;
+/* Elementos filhos só aparecem quando o pai está ativo */
+.leaflet-control-measure.active .leaflet-control-measure-toggle,
+.leaflet-control-measure.active .leaflet-control-measure-interaction,
+.leaflet-draw.active .leaflet-draw-toolbar,
+.leaflet-draw.active .leaflet-draw-section,
+.leaflet-draw.active .leaflet-draw-actions,
+.leaflet-draw.active .leaflet-draw-actions-top,
+.leaflet-draw.active .leaflet-draw-actions-bottom,
+.leaflet-draw.active .leaflet-draw-toolbar a {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
 
 @media (max-width: 700px) {
