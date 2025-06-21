@@ -65,7 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
         edit: { featureGroup: drawnItems },
         draw: { polygon: true, polyline: true, rectangle: true, circle: true, marker: true }
     });
-    map.addControl(drawControl);    // 4. ESCONDER CONTROLES INICIALMENTE - SEM forçar display:none
+    map.addControl(drawControl);
+
+    // 4. ESCONDER CONTROLES INICIALMENTE - SEM forçar display:none
     setTimeout(() => {
         const drawEl = document.querySelector('.leaflet-draw');
         const measureEl = document.querySelector('.leaflet-control-measure');
@@ -83,7 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeTool = null;
     let measurementCount = 0;
 
-    // 6. FUNÇÕES AUXILIARES SIMPLES    function hideAllPanels() {
+    // 6. FUNÇÕES AUXILIARES SIMPLES
+    function hideAllPanels() {
         // Esconder painéis
         const panels = ['#basemap-panel', '#measurement-results', '#legend-modal', '#share-modal'];
         panels.forEach(id => {
@@ -173,17 +176,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
             
-            showPanel('#basemap-panel');
-        }
-    });    // Botão Medição
+            showPanel('#basemap-panel');        }
+    });
+
+    // Botão Medição
     document.getElementById('btn-measure')?.addEventListener('click', (e) => {
         if (activeTool === 'measure') {
             hideAllPanels();
         } else {
             hideAllPanels();
-            e.currentTarget.classList.add('active');
-            activeTool = 'measure';
-              // Mostrar controle de medição - REMOVER style.display para deixar CSS funcionar
+            e.currentTarget.classList.add('active');            activeTool = 'measure';
+            
+            // Mostrar controle de medição - REMOVER style.display para deixar CSS funcionar
             const measureEl = document.querySelector('.leaflet-control-measure');
             if (measureEl) {
                 measureEl.classList.add('active');
@@ -195,17 +199,18 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 const toggle = document.querySelector('.leaflet-control-measure-toggle');
                 if (toggle) toggle.click();
-            }, 100);
-        }
-    });    // Botão Desenho
+            }, 100);        }
+    });
+
+    // Botão Desenho
     document.getElementById('btn-draw')?.addEventListener('click', (e) => {
         if (activeTool === 'draw') {
             hideAllPanels();
         } else {
             hideAllPanels();
-            e.currentTarget.classList.add('active');
-            activeTool = 'draw';
-              // Mostrar controle de desenho - REMOVER style.display para deixar CSS funcionar
+            e.currentTarget.classList.add('active');            activeTool = 'draw';
+            
+            // Mostrar controle de desenho - REMOVER style.display para deixar CSS funcionar
             const drawEl = document.querySelector('.leaflet-draw');
             if (drawEl) {
                 drawEl.classList.add('active');
@@ -301,9 +306,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 addMeasurementResult('Teste', '100 m');
                 console.log('Teste executado');
             };
-            document.body.appendChild(testBtn);
-        }, 1000);
-    }    // 12. GARANTIR INICIALIZAÇÃO LIMPA
+            document.body.appendChild(testBtn);        }, 1000);
+    }
+
+    // 12. GARANTIR INICIALIZAÇÃO LIMPA
     setTimeout(hideAllPanels, 100);
     
     console.log('✅ WebGIS estático inicializado com sucesso!');
