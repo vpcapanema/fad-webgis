@@ -1,7 +1,7 @@
 header.header-fad {
   width: 300px;
   height: 100px;
-  background: #003366;
+  background: linear-gradient(90deg, #007a29 0%, #004080 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
