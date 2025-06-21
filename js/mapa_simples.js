@@ -112,14 +112,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         activeTool = null;
-    }
-
-    function showPanel(panelId) {
-
+    }    function showPanel(panelId) {
         const panel = document.querySelector(panelId);
         if (panel) {
             panel.classList.add('active');
-            panel.style.display = 'block';
+            // Para modais, não definir display: block diretamente - deixar o CSS decidir
+            if (!panelId.includes('modal')) {
+                panel.style.display = 'block';
+            }
         }
     }
 

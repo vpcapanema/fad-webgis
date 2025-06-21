@@ -27,10 +27,11 @@
     #basemap-panel, #measurement-results, #legend-modal, #share-modal, #filter-modal {
       display: none !important;
     }
-    
-    /* MOSTRAR APENAS QUANDO ATIVO */
+      /* MOSTRAR APENAS QUANDO ATIVO */
     #basemap-panel.active, #measurement-results.active, #legend-modal.active, #share-modal.active, #filter-modal.active {
       display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
     }
     
     /* Painel de medição simples */
@@ -102,9 +103,29 @@
     .measurement-item {
       padding: 4px 0;
       border-bottom: 1px solid #eee;
-    }
-    .measurement-item:last-child {
+    }    .measurement-item:last-child {
       border-bottom: none;
+    }
+    
+    /* Modal header styles */
+    .modal-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .modal-header-flex h3 {
+      margin: 0;
+    }
+    .modal-close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: #666;
+    }
+    .modal-close-btn:hover {
+      color: #000;
     }
   </style>
 
@@ -194,7 +215,10 @@
       </div>
       <div id="basemap-list" class="panel-body"></div>
     </div>    <div id="legend-modal">
-      <h3>Legenda das Camadas</h3>
+      <div class="modal-header-flex">
+        <h3>Legenda das Camadas</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
       <p>A legenda será exibida aqui quando uma camada estiver ativa no mapa.</p>
       <div id="legend-content">
         <p><em>Selecione uma camada no menu lateral para ver sua legenda.</em></p>
