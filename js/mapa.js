@@ -230,6 +230,12 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleModal(legendModal, 'open');
     });
     
+    document.getElementById('btn-download').addEventListener('click', () => {
+        deactivateAllTools();
+        // Implementar funcionalidade de download
+        alert('Funcionalidade de download será implementada em breve.');
+    });
+    
     document.getElementById('btn-share').addEventListener('click', () => {
         deactivateAllTools();
         toggleModal(shareModal, 'open');
@@ -332,5 +338,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });    map.on('measurefinish', () => {
         // Este evento já é tratado na seção de eventos de medição acima
         // Mantido aqui apenas para compatibilidade
+    });
+
+    document.getElementById('copy-share-url')?.addEventListener('click', () => {
+        const shareUrl = document.getElementById('share-url');
+        if (shareUrl) {
+            shareUrl.select();
+            shareUrl.setSelectionRange(0, 99999); // Para dispositivos móveis
+            navigator.clipboard.writeText(shareUrl.value).then(() => {
+                alert('Link copiado para a área de transferência!');
+            }).catch(() => {
+                alert('Erro ao copiar link. Tente selecionar e copiar manualmente.');
+            });
+        }
     });
 });

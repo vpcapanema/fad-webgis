@@ -171,10 +171,28 @@
         <button id="basemap-panel-close-btn" class="panel-close-btn">&times;</button>
       </div>
       <div id="basemap-list" class="panel-body"></div>
+    </div>    <div id="legend-modal">
+      <h3>Legenda das Camadas</h3>
+      <p>A legenda será exibida aqui quando uma camada estiver ativa no mapa.</p>
+      <div id="legend-content">
+        <p><em>Selecione uma camada no menu lateral para ver sua legenda.</em></p>
+      </div>
     </div>
-
-    <div id="legend-modal"></div>
-    <div id="share-modal"></div>
+    <div id="share-modal">
+      <h3>Compartilhar Mapa</h3>
+      <p>Compartilhe este mapa usando as opções abaixo:</p>
+      <div class="share-options">
+        <div class="share-option">
+          <strong>Link direto:</strong>
+          <input type="text" id="share-url" value="https://fad-webgis.lat/" readonly>
+        </div>
+        <div class="share-option">
+          <button id="copy-share-url" class="share-copy-btn">
+            Copiar Link
+          </button>
+        </div>
+      </div>
+    </div>
     <div id="filter-modal"></div>
   </main>
 

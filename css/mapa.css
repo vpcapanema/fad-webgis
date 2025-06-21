@@ -363,6 +363,42 @@ footer.rodape-fad {
   color: #333;
 }
 
+/* Estilos para modais de legenda e compartilhamento */
+.share-options {
+    margin-top: 15px;
+}
+
+.share-option {
+    margin-bottom: 10px;
+}
+
+.share-option:last-child {
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+
+#share-url {
+    width: 100%;
+    margin-top: 5px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.share-copy-btn {
+    padding: 8px 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.share-copy-btn:hover {
+    background: #0056b3;
+}
+
 @media (max-width: 700px) {
   .map-toolbar {
     top: 60px;
