@@ -479,35 +479,41 @@ div.leaflet-control-measure,
     pointer-events: auto !important;
 }
 
-/* Ajustar seletores de controle de desenho para .leaflet-control-draw */
-/* Ocultar controle de desenho por padrão */
-.leaflet-control-draw,
-.leaflet-control-draw * {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
+/* ===== Ajustar controle de desenho (usar .leaflet-control-draw) ===== */
+/* Ocultar por padrão */
+.leaflet-control-draw {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
-
-/* Apenas quando ativo */
-.leaflet-control-draw.active,
-.leaflet-control-draw.active * {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
+/* Exibir quando ativo */
+.leaflet-control-draw.active {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
-
+/* Exibir filhos do toolbar ao ativar */
 .leaflet-control-draw.active .leaflet-draw-toolbar,
 .leaflet-control-draw.active .leaflet-draw-section,
 .leaflet-control-draw.active .leaflet-draw-actions,
 .leaflet-control-draw.active .leaflet-draw-actions-top,
 .leaflet-control-draw.active .leaflet-draw-actions-bottom,
 .leaflet-control-draw.active .leaflet-draw-toolbar a {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Remover regras antigas de .leaflet-draw para não conflitar */
+.leaflet-draw,
+.leaflet-draw * {
+  display: initial !important;
+  visibility: initial !important;
+  opacity: initial !important;
+  pointer-events: initial !important;
 }
 
 @media (max-width: 700px) {
@@ -738,4 +744,50 @@ div.leaflet-control-measure,
     visibility: visible !important;
     opacity: 1 !important;
     pointer-events: auto !important;
+}
+
+/* Fix: forçar exibição do controle de desenho quando ativo */
+.leaflet-draw.active,
+.leaflet-draw.active * {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* ===== OVERRIDE FINAL PLUGIN CONTROLS ===== */
+/* Ocultar contêineres de controle de desenho e medição por padrão */
+.leaflet-control-draw, .leaflet-control-measure {
+  display: none !important;
+}
+/* Exibir apenas quando ativados pela classe .active */
+.leaflet-control-draw.active, .leaflet-control-measure.active {
+  display: block !important;
+}
+
+/* === OVERRIDE FINAL CONTROLES DRAW & MEASURE === */
+/* Ocultar ícones de desenho e medição por padrão */
+.leaflet-draw,
+.leaflet-control-measure {
+    display: none !important;
+}
+/* Exibir somente quando container tiver classe .active */
+.leaflet-draw.active,
+.leaflet-control-measure.active {
+    display: block !important;
+}
+/* Garantir que sub-elementos fiquem visíveis com o pai */
+.leaflet-draw.active *,
+.leaflet-control-measure.active * {
+    display: block !important;
+}
+
+/* ===== OVERRIDE FINAL SIMPLES: Mostrar controles de Desenho e Medição apenas quando ativos ===== */
+.leaflet-control-draw.leaflet-bar,
+.leaflet-control-measure.leaflet-bar {
+  display: none !important;
+}
+.leaflet-control-draw.leaflet-bar.active,
+.leaflet-control-measure.leaflet-bar.active {
+  display: block !important;
 }

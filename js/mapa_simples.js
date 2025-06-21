@@ -67,18 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     map.addControl(drawControl);
 
-    // 4. ESCONDER CONTROLES INICIALMENTE - SEM forçar display:none
+    // 4. ESCONDER CONTROLES INICIALMENTE
     setTimeout(() => {
-        const drawEl = document.querySelector('.leaflet-control-draw');
-        const measureEl = document.querySelector('.leaflet-control-measure');
+        const drawEl = document.querySelector('.leaflet-control-draw.leaflet-bar');
+        const measureEl = document.querySelector('.leaflet-control-measure.leaflet-bar');
         
-        // Apenas remove a classe active, deixa o CSS decidir
-        if (drawEl) {
-            drawEl.classList.remove('active');
-        }
-        if (measureEl) {
-            measureEl.classList.remove('active');
-        }
+        if (drawEl) drawEl.classList.remove('active');
+        if (measureEl) measureEl.classList.remove('active');
     }, 500);
 
     // 5. VARIÁVEIS DE ESTADO SIMPLES
@@ -102,14 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // Esconder controles - REMOVER classe active e deixar CSS decidir
-        const drawEl = document.querySelector('.leaflet-control-draw');
-        const measureEl = document.querySelector('.leaflet-control-measure');
-        if (drawEl) {
-            drawEl.classList.remove('active');
-        }
-        if (measureEl) {
-            measureEl.classList.remove('active');
-        }
+        const drawEl = document.querySelector('.leaflet-control-draw.leaflet-bar');
+        const measureEl = document.querySelector('.leaflet-control-measure.leaflet-bar');
+        if (drawEl) drawEl.classList.remove('active');
+        if (measureEl) measureEl.classList.remove('active');
         
         activeTool = null;
     }    function showPanel(panelId) {
@@ -188,10 +179,9 @@ document.addEventListener('DOMContentLoaded', () => {
             e.currentTarget.classList.add('active');            activeTool = 'measure';
             
             // Mostrar controle de medição - REMOVER style.display para deixar CSS funcionar
-            const measureEl = document.querySelector('.leaflet-control-measure');
+            const measureEl = document.querySelector('.leaflet-control-measure.leaflet-bar');
             if (measureEl) {
                 measureEl.classList.add('active');
-                // Remover qualquer style.display forçado
                 measureEl.style.display = '';
             }
             
@@ -210,11 +200,10 @@ document.addEventListener('DOMContentLoaded', () => {
             hideAllPanels();
             e.currentTarget.classList.add('active');            activeTool = 'draw';
             
-            // Mostrar controle de desenho - REMOVER style.display para deixar CSS funcionar
-            const drawEl = document.querySelector('.leaflet-control-draw');
+            // Mostrar controle de desenho
+            const drawEl = document.querySelector('.leaflet-control-draw.leaflet-bar');
             if (drawEl) {
                 drawEl.classList.add('active');
-                // Remover qualquer style.display forçado
                 drawEl.style.display = '';
             }
         }
