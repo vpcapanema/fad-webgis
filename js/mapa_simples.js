@@ -87,7 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeTool = null;
     let measurementCount = 0;
 
-    // 6. FUNÇÕES AUXILIARES SIMPLES    function hideAllPanels() {
+    // 6. FUNÇÕES AUXILIARES SIMPLES
+    function hideAllPanels() {
         // Esconder painéis
         const panels = ['#basemap-panel', '#measurement-results', '#legend-modal', '#share-modal'];
         panels.forEach(id => {
@@ -119,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showPanel(panelId) {
+
         const panel = document.querySelector(panelId);
         if (panel) {
             panel.classList.add('active');
