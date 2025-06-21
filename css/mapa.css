@@ -404,48 +404,65 @@ footer.rodape-fad {
 .leaflet-draw {
     background: rgba(255, 255, 255, 0.95) !important;
     border-radius: 8px !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
-    border: 1px solid #ddd !important;
-    z-index: 1500 !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25) !important;
+    border: 2px solid #007bff !important;
+    z-index: 2000 !important;
+    position: relative !important;
 }
 
 .leaflet-control-measure .leaflet-control-measure-toggle,
 .leaflet-draw-toolbar a {
     background: #fff !important;
-    border: 1px solid #ccc !important;
+    border: 1px solid #007bff !important;
     border-radius: 4px !important;
     color: #333 !important;
-    transition: background-color 0.2s !important;
+    transition: all 0.2s !important;
+    padding: 8px !important;
+    margin: 2px !important;
 }
 
 .leaflet-control-measure .leaflet-control-measure-toggle:hover,
 .leaflet-draw-toolbar a:hover {
-    background: #f0f0f0 !important;
-    border-color: #007bff !important;
+    background: #007bff !important;
+    color: white !important;
+    transform: scale(1.05) !important;
 }
 
 .leaflet-control-measure-interaction {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border-radius: 6px !important;
-    padding: 8px !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-    border: 1px solid #ddd !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important;
+    border: 2px solid #007bff !important;
+    z-index: 2100 !important;
+    font-weight: bold !important;
 }
 
 /* Posicionamento dos controles dos plugins */
 .leaflet-top.leaflet-left {
-    top: 120px !important; /* Abaixo da barra de ferramentas */
-    left: 10px !important;
+    top: 120px !important;
+    left: 20px !important;
+    z-index: 2000 !important;
 }
 
 .leaflet-control-measure {
     margin-left: 0 !important;
     margin-top: 10px !important;
+    z-index: 2000 !important;
 }
 
 .leaflet-draw {
     margin-left: 0 !important;
     margin-top: 10px !important;
+    z-index: 2000 !important;
+}
+
+/* Força visibilidade dos controles quando ativos */
+.leaflet-draw.leaflet-control,
+.leaflet-control-measure.leaflet-control {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 @media (max-width: 700px) {

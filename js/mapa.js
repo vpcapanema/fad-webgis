@@ -43,9 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             subdomains: 'abcd',
             maxZoom: 20
         })
-    };
-
-    let currentBaseMap = baseMaps['Google Streets'];
+    };    let currentBaseMap = baseMaps['ESRI Satélite'];
     currentBaseMap.addTo(map);
 
     // 3. CONTROLES E FERRAMENTAS DO MAPA
@@ -73,16 +71,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const drawControlElement = document.querySelector('.leaflet-draw');
     const measureControlElement = document.querySelector('.leaflet-control-measure');
     
-    if (drawControlElement) drawControlElement.style.display = 'none';
-    if (measureControlElement) measureControlElement.style.display = 'none';
+    // Aguarda um pouco para garantir que os elementos foram criados
+    setTimeout(() => {
+        const drawControl = document.querySelector('.leaflet-draw');
+        const measureControl = document.querySelector('.leaflet-control-measure');
+        
+        if (drawControl) {
+            drawControl.style.display = 'none';
+            drawControl.style.zIndex = '2000';
+        }
+        if (measureControl) {
+            measureControl.style.display = 'none';
+            measureControl.style.zIndex = '2000';
+        }
+    }, 100);
 
     // Função para mostrar/esconder controles dos plugins
     const togglePluginControls = (showDraw = false, showMeasure = false) => {
-        if (drawControlElement) {
-            drawControlElement.style.display = showDraw ? 'block' : 'none';
+        const drawControl = document.querySelector('.leaflet-draw');
+        const measureControl = document.querySelector('.leaflet-control-measure');
+        
+        if (drawControl) {
+            drawControl.style.display = showDraw ? 'block' : 'none';
+            drawControl.style.zIndex = '2000';
+            drawControl.style.position = 'relative';
         }
-        if (measureControlElement) {
-            measureControlElement.style.display = showMeasure ? 'block' : 'none';
+        if (measureControl) {
+            measureControl.style.display = showMeasure ? 'block' : 'none';
+            measureControl.style.zIndex = '2000';
+            measureControl.style.position = 'relative';
         }
     };// 4. LÓGICA DA BARRA DE FERRAMENTAS, PAINÉIS E ESTADO DAS FERRAMENTAS
     // =================================================================
@@ -144,17 +161,32 @@ document.addEventListener('DOMContentLoaded', () => {
             currentDrawHandler.disable();
             currentDrawHandler = null;
         }
+        
         // Desativa a ferramenta de medição se estiver ativa
         const measureToggle = document.querySelector('.leaflet-control-measure-toggle');
         if (measureToggle && measureToggle.parentElement.classList.contains('leaflet-control-measure-on')) {
             measureToggle.click(); // Simula o clique para desativar
         }
+        
         // Esconde todos os controles dos plugins
-        togglePluginControls(false, false);
+        setTimeout(() => {
+            const drawControl = document.querySelector('.leaflet-draw');
+            const measureControl = document.querySelector('.leaflet-control-measure');
+            
+            if (drawControl) {
+                drawControl.style.display = 'none';
+            }
+            if (measureControl) {
+                measureControl.style.display = 'none';
+            }
+        }, 50);
+        
         // Fecha o painel de mapas base
         togglePanel(basemapPanel, 'close');
+        
         // Remove a classe 'active' de todos os botões de ferramenta
         document.querySelectorAll('.tool-btn.active').forEach(btn => btn.classList.remove('active'));
+        
         activeTool = null;
     };
 
@@ -216,8 +248,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const isDeactivating = button.classList.contains('active');
         deactivateAllTools();
         if (!isDeactivating) {
-            togglePluginControls(false, true); // Mostra controle de medição
-            document.querySelector('.leaflet-control-measure-toggle').click();
+            // Força a exibição do controle de medição
+            setTimeout(() => {
+                const measureControl = document.querySelector('.leaflet-control-measure');
+                if (measureControl) {
+                    measureControl.style.display = 'block';
+                    measureControl.style.visibility = 'visible';
+                    measureControl.style.zIndex = '2000';
+                }
+                // Ativa a ferramenta de medição
+                const measureToggle = document.querySelector('.leaflet-control-measure-toggle');
+                if (measureToggle) {
+                    measureToggle.click();
+                }
+            }, 50);
+            
             button.classList.add('active');
             activeTool = 'measure';
         }
@@ -228,7 +273,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const isDeactivating = button.classList.contains('active');
         deactivateAllTools();
         if (!isDeactivating) {
-            togglePluginControls(true, false); // Mostra controle de desenho
+            // Força a exibição do controle de desenho
+            setTimeout(() => {
+                const drawControl = document.querySelector('.leaflet-draw');
+                if (drawControl) {
+                    drawControl.style.display = 'block';
+                    drawControl.style.visibility = 'visible';
+                    drawControl.style.zIndex = '2000';
+                }
+            }, 50);
+            
+            // Ativa a ferramenta de desenho
             currentDrawHandler = new L.Draw.Polygon(map, drawControl.options.draw.polygon);
             currentDrawHandler.enable();
             button.classList.add('active');
