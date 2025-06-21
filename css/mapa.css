@@ -458,6 +458,10 @@ div.leaflet-control-measure,
     left: auto !important;
     top: auto !important;
     z-index: 2000 !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25) !important;
+    border: 2px solid #007bff !important;
 }
 
 /* Elementos filhos só aparecem quando o pai está ativo */

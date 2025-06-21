@@ -65,19 +65,17 @@ document.addEventListener('DOMContentLoaded', () => {
         edit: { featureGroup: drawnItems },
         draw: { polygon: true, polyline: true, rectangle: true, circle: true, marker: true }
     });
-    map.addControl(drawControl);    // 4. ESCONDER CONTROLES INICIALMENTE E APLICAR CLASSES CSS
+    map.addControl(drawControl);    // 4. ESCONDER CONTROLES INICIALMENTE - SEM forçar display:none
     setTimeout(() => {
         const drawEl = document.querySelector('.leaflet-draw');
         const measureEl = document.querySelector('.leaflet-control-measure');
         
-        // Remove a classe active se existir e garante que estejam ocultos
+        // Apenas remove a classe active, deixa o CSS decidir
         if (drawEl) {
             drawEl.classList.remove('active');
-            drawEl.style.display = 'none';
         }
         if (measureEl) {
             measureEl.classList.remove('active');
-            measureEl.style.display = 'none';
         }
     }, 500);
 
@@ -85,15 +83,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeTool = null;
     let measurementCount = 0;
 
-    // 6. FUNÇÕES AUXILIARES SIMPLES
-    function hideAllPanels() {
+    // 6. FUNÇÕES AUXILIARES SIMPLES    function hideAllPanels() {
         // Esconder painéis
         const panels = ['#basemap-panel', '#measurement-results', '#legend-modal', '#share-modal'];
         panels.forEach(id => {
             const el = document.querySelector(id);
             if (el) {
                 el.classList.remove('active');
-                el.style.display = 'none';
             }
         });
         
@@ -102,15 +98,14 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.remove('active');
         });
         
-        // Esconder controles usando classes CSS
+        // Esconder controles - REMOVER classe active e deixar CSS decidir
         const drawEl = document.querySelector('.leaflet-draw');
-        const measureEl = document.querySelector('.leaflet-control-measure');        if (drawEl) {
+        const measureEl = document.querySelector('.leaflet-control-measure');
+        if (drawEl) {
             drawEl.classList.remove('active');
-            drawEl.style.display = 'none';
         }
         if (measureEl) {
             measureEl.classList.remove('active');
-            measureEl.style.display = 'none';
         }
         
         activeTool = null;
@@ -188,11 +183,12 @@ document.addEventListener('DOMContentLoaded', () => {
             hideAllPanels();
             e.currentTarget.classList.add('active');
             activeTool = 'measure';
-            
-            // Mostrar controle de medição usando classe CSS
-            const measureEl = document.querySelector('.leaflet-control-measure');            if (measureEl) {
+              // Mostrar controle de medição - REMOVER style.display para deixar CSS funcionar
+            const measureEl = document.querySelector('.leaflet-control-measure');
+            if (measureEl) {
                 measureEl.classList.add('active');
-                measureEl.style.display = 'block';
+                // Remover qualquer style.display forçado
+                measureEl.style.display = '';
             }
             
             // Ativar ferramenta
@@ -209,11 +205,12 @@ document.addEventListener('DOMContentLoaded', () => {
             hideAllPanels();
             e.currentTarget.classList.add('active');
             activeTool = 'draw';
-            
-            // Mostrar controle de desenho usando classe CSS
-            const drawEl = document.querySelector('.leaflet-draw');            if (drawEl) {
+              // Mostrar controle de desenho - REMOVER style.display para deixar CSS funcionar
+            const drawEl = document.querySelector('.leaflet-draw');
+            if (drawEl) {
                 drawEl.classList.add('active');
-                drawEl.style.display = 'block';
+                // Remover qualquer style.display forçado
+                drawEl.style.display = '';
             }
         }
     });
