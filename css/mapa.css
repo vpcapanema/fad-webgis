@@ -399,9 +399,12 @@ footer.rodape-fad {
     background: #0056b3;
 }
 
-/* Estilos para controles dos plugins Leaflet */
+/* Estilos para controles dos plugins Leaflet - FORÇAR VISIBILIDADE */
 .leaflet-control-measure,
 .leaflet-draw {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     background: rgba(255, 255, 255, 0.95) !important;
     border-radius: 8px !important;
     box-shadow: 0 8px 24px rgba(0,0,0,0.25) !important;
@@ -419,6 +422,8 @@ footer.rodape-fad {
     transition: all 0.2s !important;
     padding: 8px !important;
     margin: 2px !important;
+    display: inline-block !important;
+    visibility: visible !important;
 }
 
 .leaflet-control-measure .leaflet-control-measure-toggle:hover,
@@ -436,6 +441,8 @@ footer.rodape-fad {
     border: 2px solid #007bff !important;
     z-index: 2100 !important;
     font-weight: bold !important;
+    display: block !important;
+    visibility: visible !important;
 }
 
 /* Posicionamento dos controles dos plugins */
@@ -455,14 +462,6 @@ footer.rodape-fad {
     margin-left: 0 !important;
     margin-top: 10px !important;
     z-index: 2000 !important;
-}
-
-/* Força visibilidade dos controles quando ativos */
-.leaflet-draw.leaflet-control,
-.leaflet-control-measure.leaflet-control {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
 }
 
 @media (max-width: 700px) {

@@ -66,42 +66,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const drawControl = new L.Control.Draw({
         edit: { featureGroup: drawnItems },
         draw: { polygon: true, polyline: true, rectangle: true, circle: true, marker: true }
-    });
-    map.addControl(drawControl);    // Inicialmente esconde os controles padrão dos plugins
-    const drawControlElement = document.querySelector('.leaflet-draw');
-    const measureControlElement = document.querySelector('.leaflet-control-measure');
-    
-    // Aguarda um pouco para garantir que os elementos foram criados
+    });    map.addControl(drawControl);
+
+    // NÃO esconde os controles - deixa eles sempre visíveis
+    // Força estilo para garantir visibilidade
     setTimeout(() => {
         const drawControl = document.querySelector('.leaflet-draw');
         const measureControl = document.querySelector('.leaflet-control-measure');
         
         if (drawControl) {
-            drawControl.style.display = 'none';
-            drawControl.style.zIndex = '2000';
+            drawControl.style.display = 'block !important';
+            drawControl.style.visibility = 'visible !important';
+            drawControl.style.zIndex = '2000 !important';
+            drawControl.style.opacity = '1 !important';
         }
         if (measureControl) {
-            measureControl.style.display = 'none';
-            measureControl.style.zIndex = '2000';
+            measureControl.style.display = 'block !important';
+            measureControl.style.visibility = 'visible !important';
+            measureControl.style.zIndex = '2000 !important';
+            measureControl.style.opacity = '1 !important';
         }
-    }, 100);
-
-    // Função para mostrar/esconder controles dos plugins
-    const togglePluginControls = (showDraw = false, showMeasure = false) => {
-        const drawControl = document.querySelector('.leaflet-draw');
-        const measureControl = document.querySelector('.leaflet-control-measure');
-        
-        if (drawControl) {
-            drawControl.style.display = showDraw ? 'block' : 'none';
-            drawControl.style.zIndex = '2000';
-            drawControl.style.position = 'relative';
-        }
-        if (measureControl) {
-            measureControl.style.display = showMeasure ? 'block' : 'none';
-            measureControl.style.zIndex = '2000';
-            measureControl.style.position = 'relative';
-        }
-    };// 4. LÓGICA DA BARRA DE FERRAMENTAS, PAINÉIS E ESTADO DAS FERRAMENTAS
+    }, 500);// 4. LÓGICA DA BARRA DE FERRAMENTAS, PAINÉIS E ESTADO DAS FERRAMENTAS
     // =================================================================
     const basemapPanel = document.getElementById('basemap-panel');
     const legendModal = document.getElementById('legend-modal');
@@ -167,19 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (measureToggle && measureToggle.parentElement.classList.contains('leaflet-control-measure-on')) {
             measureToggle.click(); // Simula o clique para desativar
         }
-        
-        // Esconde todos os controles dos plugins
-        setTimeout(() => {
-            const drawControl = document.querySelector('.leaflet-draw');
-            const measureControl = document.querySelector('.leaflet-control-measure');
-            
-            if (drawControl) {
-                drawControl.style.display = 'none';
-            }
-            if (measureControl) {
-                measureControl.style.display = 'none';
-            }
-        }, 50);
         
         // Fecha o painel de mapas base
         togglePanel(basemapPanel, 'close');
@@ -248,21 +220,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const isDeactivating = button.classList.contains('active');
         deactivateAllTools();
         if (!isDeactivating) {
-            // Força a exibição do controle de medição
-            setTimeout(() => {
-                const measureControl = document.querySelector('.leaflet-control-measure');
-                if (measureControl) {
-                    measureControl.style.display = 'block';
-                    measureControl.style.visibility = 'visible';
-                    measureControl.style.zIndex = '2000';
-                }
-                // Ativa a ferramenta de medição
-                const measureToggle = document.querySelector('.leaflet-control-measure-toggle');
-                if (measureToggle) {
-                    measureToggle.click();
-                }
-            }, 50);
-            
+            // Ativa a ferramenta de medição
+            const measureToggle = document.querySelector('.leaflet-control-measure-toggle');
+            if (measureToggle) {
+                measureToggle.click();
+            }
             button.classList.add('active');
             activeTool = 'measure';
         }
@@ -273,16 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const isDeactivating = button.classList.contains('active');
         deactivateAllTools();
         if (!isDeactivating) {
-            // Força a exibição do controle de desenho
-            setTimeout(() => {
-                const drawControl = document.querySelector('.leaflet-draw');
-                if (drawControl) {
-                    drawControl.style.display = 'block';
-                    drawControl.style.visibility = 'visible';
-                    drawControl.style.zIndex = '2000';
-                }
-            }, 50);
-            
             // Ativa a ferramenta de desenho
             currentDrawHandler = new L.Draw.Polygon(map, drawControl.options.draw.polygon);
             currentDrawHandler.enable();
